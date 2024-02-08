@@ -26,6 +26,7 @@ public enum UrlVersion {
 }
 
 public enum Endpoint {
+    case species
     case pokemon
     case move
     case type
@@ -33,6 +34,8 @@ public enum Endpoint {
     
     var value: String {
         switch self {
+        case .species:
+            return "pokemon-species/"
         case .pokemon:
             return "pokemon/"
         case .move:
