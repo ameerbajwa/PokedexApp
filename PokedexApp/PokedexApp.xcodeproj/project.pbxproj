@@ -13,6 +13,8 @@
 		DE3100512B7469A300761D3B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DE31004F2B7469A300761D3B /* Main.storyboard */; };
 		DE3100532B7469A400761D3B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DE3100522B7469A400761D3B /* Assets.xcassets */; };
 		DE3100562B7469A400761D3B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DE3100542B7469A400761D3B /* LaunchScreen.storyboard */; };
+		DE31005F2B746B5B00761D3B /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE31005E2B746B5B00761D3B /* NetworkService.swift */; };
+		DE3100622B746D3400761D3B /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE3100612B746D3400761D3B /* Constants.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +26,8 @@
 		DE3100522B7469A400761D3B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		DE3100552B7469A400761D3B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		DE3100572B7469A400761D3B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		DE31005E2B746B5B00761D3B /* NetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
+		DE3100612B746D3400761D3B /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,6 +60,8 @@
 		DE3100482B7469A300761D3B /* PokedexApp */ = {
 			isa = PBXGroup;
 			children = (
+				DE3100602B746D1200761D3B /* Utilities */,
+				DE31005D2B746B4100761D3B /* Networking */,
 				DE3100492B7469A300761D3B /* AppDelegate.swift */,
 				DE31004B2B7469A300761D3B /* SceneDelegate.swift */,
 				DE31004D2B7469A300761D3B /* ViewController.swift */,
@@ -65,6 +71,22 @@
 				DE3100572B7469A400761D3B /* Info.plist */,
 			);
 			path = PokedexApp;
+			sourceTree = "<group>";
+		};
+		DE31005D2B746B4100761D3B /* Networking */ = {
+			isa = PBXGroup;
+			children = (
+				DE31005E2B746B5B00761D3B /* NetworkService.swift */,
+			);
+			path = Networking;
+			sourceTree = "<group>";
+		};
+		DE3100602B746D1200761D3B /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				DE3100612B746D3400761D3B /* Constants.swift */,
+			);
+			path = Utilities;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -138,8 +160,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DE3100622B746D3400761D3B /* Constants.swift in Sources */,
 				DE31004E2B7469A300761D3B /* ViewController.swift in Sources */,
 				DE31004A2B7469A300761D3B /* AppDelegate.swift in Sources */,
+				DE31005F2B746B5B00761D3B /* NetworkService.swift in Sources */,
 				DE31004C2B7469A300761D3B /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
