@@ -9,6 +9,7 @@ import Foundation
 
 public struct Constants {
     static let baseURL = "https://pokeapi.co/api/"
+    static let firstGenerationPokemonListParameter = "?offset=0&limit=151"
 }
 
 public enum UrlVersion {
@@ -23,6 +24,13 @@ public enum UrlVersion {
             return "v2/"
         }
     }
+}
+
+enum HttpMethod: String {
+    case POST
+    case GET
+    case PUT
+    case DELETE
 }
 
 public enum Endpoint {
