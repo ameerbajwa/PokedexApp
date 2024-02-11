@@ -8,23 +8,24 @@
 import Foundation
 
 struct Pokemon {
+    let id: Int
     let name: String
-    let moves: [PokemonMove]
-    let types: [PokemonNameURLStructure]
+    let moves: [PokemonLearnedMove]
+    let types: [NameURLStructure]
     let stats: [PokemonStat]
 }
 
-struct PokemonNameURLStructure {
+struct NameURLStructure {
     let name: String
     let url: String
 }
 
-struct PokemonMove {
-    let move: PokemonNameURLStructure
+struct PokemonLearnedMove {
+    let move: NameURLStructure
 }
 
 struct PokemonStat {
     let baseStat: Int
     let effort: Int
-    let statName: PokemonNameURLStructure
+    let statName: NameURLStructure
 }
