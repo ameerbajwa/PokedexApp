@@ -19,25 +19,33 @@ struct NetworkService {
     
     func callPokeAPI(with endpoint: Endpoint,
                      by id: Int?,
-                     for model: Codable,
-                     completionHandler: @escaping (Result<Codable, Error>) -> Void) {
+                     completionHandler: @escaping (Result<PokemonClass, Error>) -> Void) {
         let pokeAPIUrlString = generatePokeAPIUrl(with: endpoint, by: id)
-        let pokeAPIUrl = URL(fileURLWithPath: pokeAPIUrlString)
-        var pokeAPIUrlRequest = URLRequest(url: pokeAPIUrl)
+        let pokeAPIUrl = URL(string: pokeAPIUrlString)
+        guard let safePokeAPIUrl = pokeAPIUrl else {
+            return
+        }
+        var pokeAPIUrlRequest = URLRequest(url: safePokeAPIUrl)
         pokeAPIUrlRequest.httpMethod = HttpMethod.GET.rawValue
         
-        let task = session.dataTask(with: pokeAPIUrlRequest) { pokeAPIData, pokeAPIUrlResponse, pokeAPIError in
+        session.dataTask(with: pokeAPIUrlRequest) { (pokeAPIData, pokeAPIUrlResponse, pokeAPIError) in
             guard let safePokeAPIData = pokeAPIData, pokeAPIError == nil else {
+                completionHandler(.failure(pokeAPIError!))
                 return
             }
             
-            var responseModel = try decoder.decode(model.self, from: safePokeAPIData)
-            completionHandler(.success(responseModel))
-        }
+            do {
+                var responseModel = try decoder.decode(PokemonClass.self, from: safePokeAPIData)
+                completionHandler(.success(responseModel))
+            } catch {
+                print("error")
+            }
+        }.resume()
         
-        task.resume()
     }
-    
+}
+
+extension NetworkService {
     func generatePokeAPIUrl(with endpoint: Endpoint, by id: Int?) -> String {
         var pokeAPIUrl = Constants.baseURL + UrlVersion.v2.value + endpoint.value
         guard let safeId = id else {

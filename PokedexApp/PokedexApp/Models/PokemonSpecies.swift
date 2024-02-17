@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct PokemonSpecies {
+struct PokemonSpecies: Codable {
     let evolutionChain: PokemonSpeciesEvolutionChainUrl
     let evolvesFromSpecies: NameURLStructure
     let habtit: NameURLStructure

@@ -7,13 +7,54 @@
 
 import Foundation
 
-struct Pokemon: Codable {
+class PokemonClass: Codable {
     let id: Int
     let name: String
-    let moves: [PokemonLearnedMove]
-    let species: NameURLStructure
-    let types: [NameURLStructure]
-    let stats: [PokemonStat]
+    
+    enum PokemonClassKeys: CodingKey {
+        case id, name
+    }
+    
+    required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: PokemonClassKeys.self)
+        self.id = try container.decode(Int.self, forKey: .id)
+        self.name = try container.decode(String.self, forKey: .name)
+    }
+    
+    func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: PokemonClassKeys.self)
+        try container.encode(self.id, forKey: .id)
+        try container.encode(self.name, forKey: .name)
+    }
+}
+
+class Pokemon: PokemonClass {
+    var moves: [PokemonLearnedMove]
+    var species: NameURLStructure
+    var types: [NameURLStructure]
+    var stats: [PokemonStat]
+    
+    enum PokemonKeys: CodingKey {
+        case moves, species, types, stats
+    }
+    
+    required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: PokemonKeys.self)
+        self.moves = try container.decode([PokemonLearnedMove].self, forKey: .moves)
+        self.species = try container.decode(NameURLStructure.self, forKey: .species)
+        self.types = try container.decode([NameURLStructure].self, forKey: .types)
+        self.stats = try container.decode([PokemonStat].self, forKey: .stats)
+        try super.init(from: decoder)
+    }
+    
+    override func encode(to encoder: Encoder) throws {
+        try super.encode(to: encoder)
+        var container = encoder.container(keyedBy: PokemonKeys.self)
+        try container.encode(self.moves, forKey: .moves)
+        try container.encode(self.species, forKey: .species)
+        try container.encode(self.types, forKey: .types)
+        try container.encode(self.stats, forKey: .stats)
+    }
 }
 
 struct NameURLStructure: Codable {

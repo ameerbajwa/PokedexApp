@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct PokemonMove {
+struct PokemonMove: Codable {
     let id: Int
     let name: String
     let accuracy: Int
