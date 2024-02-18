@@ -19,7 +19,7 @@ struct NetworkService {
     
     func callPokeAPI(with endpoint: Endpoint,
                      by id: Int?,
-                     completionHandler: @escaping (Result<PokemonClass, Error>) -> Void) {
+                     completionHandler: @escaping (Result<PokemonSuperClass, Error>) -> Void) {
         let model = endpoint.model
         let pokeAPIUrlString = generatePokeAPIUrl(with: endpoint, by: id)
         let pokeAPIUrl = URL(string: pokeAPIUrlString)

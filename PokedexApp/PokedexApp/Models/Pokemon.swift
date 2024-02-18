@@ -7,10 +7,10 @@
 
 import Foundation
 
-class Pokemon: PokemonClass {
-    var moves: [PokemonLearnedMove]
+class Pokemon: PokemonSuperClass {
+    var moves: [PokemonMove]
     var species: NameURLStructure
-    var types: [NameURLStructure]
+    var types: [PokemonType]
     var stats: [PokemonStat]
     
     enum PokemonKeys: CodingKey {
@@ -19,9 +19,9 @@ class Pokemon: PokemonClass {
     
     required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: PokemonKeys.self)
-        self.moves = try container.decode([PokemonLearnedMove].self, forKey: .moves)
+        self.moves = try container.decode([PokemonMove].self, forKey: .moves)
         self.species = try container.decode(NameURLStructure.self, forKey: .species)
-        self.types = try container.decode([NameURLStructure].self, forKey: .types)
+        self.types = try container.decode([PokemonType].self, forKey: .types)
         self.stats = try container.decode([PokemonStat].self, forKey: .stats)
         try super.init(from: decoder)
     }
@@ -36,8 +36,12 @@ class Pokemon: PokemonClass {
     }
 }
 
-struct PokemonLearnedMove: Codable {
+struct PokemonMove: Codable {
     let move: NameURLStructure
+}
+
+struct PokemonType: Codable {
+    let type: NameURLStructure
 }
 
 struct PokemonStat: Codable {

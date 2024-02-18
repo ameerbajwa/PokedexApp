@@ -1,5 +1,5 @@
 //
-//  Type.swift
+//  PType.swift
 //  PokedexApp
 //
 //  Created by Ameer Bajwa on 2/10/24.
@@ -7,28 +7,28 @@
 
 import Foundation
 
-class PokemonType: PokemonClass {
-    let damageRelations: PokemonTypeDamageRelations
+class PType: PokemonSuperClass {
+    let damageRelations: PTypeDamageRelations
     let moveDamageClass: NameURLStructure
-    let pokemon: [PokemonTypePokemon]
+    let pokemon: [PTypePokemon]
     let moves: [NameURLStructure]
     
-    enum PokemonTypeKey: CodingKey {
+    enum PTypeKey: CodingKey {
         case damageRelations, moveDamageClass, pokemon, moves
     }
     
     required init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: PokemonTypeKey.self)
-        self.damageRelations = try container.decode(PokemonTypeDamageRelations.self, forKey: .damageRelations)
+        let container = try decoder.container(keyedBy: PTypeKey.self)
+        self.damageRelations = try container.decode(PTypeDamageRelations.self, forKey: .damageRelations)
         self.moveDamageClass = try container.decode(NameURLStructure.self, forKey: .moveDamageClass)
-        self.pokemon = try container.decode([PokemonTypePokemon].self, forKey: .pokemon)
+        self.pokemon = try container.decode([PTypePokemon].self, forKey: .pokemon)
         self.moves = try container.decode([NameURLStructure].self, forKey: .moves)
         try super.init(from: decoder)
     }
     
     override func encode(to encoder: Encoder) throws {
         try super.encode(to: encoder)
-        var container = encoder.container(keyedBy: PokemonTypeKey.self)
+        var container = encoder.container(keyedBy: PTypeKey.self)
         try container.encode(self.damageRelations, forKey: .damageRelations)
         try container.encode(self.moveDamageClass, forKey: .moveDamageClass)
         try container.encode(self.pokemon, forKey: .pokemon)
@@ -36,7 +36,7 @@ class PokemonType: PokemonClass {
     }
 }
 
-struct PokemonTypeDamageRelations: Codable {
+struct PTypeDamageRelations: Codable {
     let noDamageTo: [NameURLStructure]
     let halfDamageTo: [NameURLStructure]
     let doubleDamageTo: [NameURLStructure]
@@ -45,6 +45,6 @@ struct PokemonTypeDamageRelations: Codable {
     let doubleDamageFrom: [NameURLStructure]
 }
 
-struct PokemonTypePokemon: Codable {
+struct PTypePokemon: Codable {
     let pokemon: NameURLStructure
 }

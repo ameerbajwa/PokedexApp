@@ -52,16 +52,16 @@ public enum Endpoint {
         }
     }
     
-    var model: PokemonClass.Type {
+    var model: PokemonSuperClass.Type {
         switch self {
         case .species:
-            return PokemonSpecies.self
+            return PSpecies.self
         case .pokemon:
             return Pokemon.self
         case .move:
-            return PokemonMove.self
+            return PMove.self
         case .type:
-            return PokemonType.self
+            return PType.self
         }
     }
 }
