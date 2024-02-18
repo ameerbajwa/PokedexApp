@@ -11,7 +11,17 @@ class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        // Do any additional setup after loading the view
+        let networkService = NetworkService(urlSession: URLSession.shared,
+                                            jsonDecoder: JSONDecoder())
+        networkService.callPokeAPI(with: .pokemon, by: 1) { result in
+            switch result {
+            case .success(let response):
+                print(response)
+            case .failure(let error):
+                print(error)
+            }
+        }
     }
 
 

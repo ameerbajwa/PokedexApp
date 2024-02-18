@@ -38,7 +38,6 @@ public enum Endpoint {
     case pokemon
     case move
     case type
-    case stat
     
     var value: String {
         switch self {
@@ -50,8 +49,19 @@ public enum Endpoint {
             return "move/"
         case .type:
             return "type/"
-        case .stat:
-            return "stat/"
+        }
+    }
+    
+    var model: PokemonClass.Type {
+        switch self {
+        case .species:
+            return PokemonSpecies.self
+        case .pokemon:
+            return Pokemon.self
+        case .move:
+            return PokemonMove.self
+        case .type:
+            return PokemonType.self
         }
     }
 }

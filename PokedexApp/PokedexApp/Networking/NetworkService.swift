@@ -20,6 +20,7 @@ struct NetworkService {
     func callPokeAPI(with endpoint: Endpoint,
                      by id: Int?,
                      completionHandler: @escaping (Result<PokemonClass, Error>) -> Void) {
+        let model = endpoint.model
         let pokeAPIUrlString = generatePokeAPIUrl(with: endpoint, by: id)
         let pokeAPIUrl = URL(string: pokeAPIUrlString)
         guard let safePokeAPIUrl = pokeAPIUrl else {
@@ -35,10 +36,10 @@ struct NetworkService {
             }
             
             do {
-                var responseModel = try decoder.decode(PokemonClass.self, from: safePokeAPIData)
+                let responseModel = try decoder.decode(model, from: safePokeAPIData)
                 completionHandler(.success(responseModel))
             } catch {
-                print("error")
+                print("error: \(error)")
             }
         }.resume()
         
