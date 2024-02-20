@@ -11,7 +11,7 @@ class PokemonSuperClass: Codable {
     let id: Int
     let name: String
     
-    enum PokemonSuperClassKeys: CodingKey {
+    private enum PokemonSuperClassKeys: String, CodingKey {
         case id, name
     }
     
@@ -28,7 +28,23 @@ class PokemonSuperClass: Codable {
     }
 }
 
-struct NameURLStructure: Codable {
+class PokemonNameURLStructure: Codable {
     let name: String
     let url: String
+    
+    private enum PokemonNameURLStructureKeys: String, CodingKey {
+        case name, url
+    }
+    
+    required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: PokemonNameURLStructureKeys.self)
+        self.name = try container.decode(String.self, forKey: .name)
+        self.url = try container.decode(String.self, forKey: .url)
+    }
+    
+    func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: PokemonNameURLStructureKeys.self)
+        try container.encode(self.name, forKey: .name)
+        try container.encode(self.url, forKey: .url)
+    }
 }

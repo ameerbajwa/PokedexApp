@@ -9,18 +9,20 @@ import Foundation
 
 class PSpecies: PokemonSuperClass {
     let evolutionChain: PSpeciesEvolutionChainUrl
-    let evolvesFromSpecies: NameURLStructure
-    let habitat: NameURLStructure
+    let evolvesFromSpecies: PokemonNameURLStructure
+    let habitat: PokemonNameURLStructure
     
-    enum PSpeciesKeys: CodingKey {
-        case evolutionChain, evolvesFromSpecies, habitat
+    enum PSpeciesKeys: String, CodingKey {
+        case evolutionChain = "evolution_chain"
+        case evolvesFromSpecies = "evolves_from_species"
+        case habitat
     }
     
     required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: PSpeciesKeys.self)
         self.evolutionChain = try container.decode(PSpeciesEvolutionChainUrl.self, forKey: .evolutionChain)
-        self.evolvesFromSpecies = try container.decode(NameURLStructure.self, forKey: .evolvesFromSpecies)
-        self.habitat = try container.decode(NameURLStructure.self, forKey: .habitat)
+        self.evolvesFromSpecies = try container.decode(PokemonNameURLStructure.self, forKey: .evolvesFromSpecies)
+        self.habitat = try container.decode(PokemonNameURLStructure.self, forKey: .habitat)
         try super.init(from: decoder)
     }
     

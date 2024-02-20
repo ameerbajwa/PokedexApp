@@ -12,15 +12,18 @@ class PMove: PokemonSuperClass {
     let pp: Int
     let priority: Int
     let power: Int
-    let damageClass: NameURLStructure
+    let damageClass: PokemonNameURLStructure
     let effectEntries: [PMoveEffectEntry]
     let meta: PMoveMeta
     let names: [PMoveName]
-    let type: NameURLStructure
-    let learnedByPokemon: [NameURLStructure]
+    let type: PokemonNameURLStructure
+    let learnedByPokemon: [PokemonNameURLStructure]
     
-    enum PMoveKeys: CodingKey {
-        case accuracy, pp, priority, power, damageClass, effectEntries, meta, names, type, learnedByPokemon
+    enum PMoveKeys: String, CodingKey {
+        case accuracy, pp, priority, power, meta, names, type
+        case damageClass = "damage_class"
+        case effectEntries = "effect_entries"
+        case learnedByPokemon = "learned_by_pokemon"
     }
     
     required init(from decoder: Decoder) throws {
@@ -29,12 +32,12 @@ class PMove: PokemonSuperClass {
         self.pp = try container.decode(Int.self, forKey: .pp)
         self.priority = try container.decode(Int.self, forKey: .priority)
         self.power = try container.decode(Int.self, forKey: .power)
-        self.damageClass = try container.decode(NameURLStructure.self, forKey: .damageClass)
+        self.damageClass = try container.decode(PokemonNameURLStructure.self, forKey: .damageClass)
         self.effectEntries = try container.decode([PMoveEffectEntry].self, forKey: .effectEntries)
         self.meta = try container.decode(PMoveMeta.self, forKey: .meta)
         self.names = try container.decode([PMoveName].self, forKey: .names)
-        self.type = try container.decode(NameURLStructure.self, forKey: .type)
-        self.learnedByPokemon = try container.decode([NameURLStructure].self, forKey: .learnedByPokemon)
+        self.type = try container.decode(PokemonNameURLStructure.self, forKey: .type)
+        self.learnedByPokemon = try container.decode([PokemonNameURLStructure].self, forKey: .learnedByPokemon)
         try super.init(from: decoder)
     }
     
@@ -60,8 +63,8 @@ struct PMoveEffectEntry: Codable {
 }
 
 struct PMoveMeta: Codable {
-    let ailment: NameURLStructure
-    let category: NameURLStructure
+    let ailment: PokemonNameURLStructure
+    let category: PokemonNameURLStructure
     let minHits: Int?
     let maxHits: Int?
     let minTurns: Int?

@@ -9,20 +9,22 @@ import Foundation
 
 class PType: PokemonSuperClass {
     let damageRelations: PTypeDamageRelations
-    let moveDamageClass: NameURLStructure
+    let moveDamageClass: PokemonNameURLStructure
     let pokemon: [PTypePokemon]
-    let moves: [NameURLStructure]
+    let moves: [PokemonNameURLStructure]
     
-    enum PTypeKey: CodingKey {
-        case damageRelations, moveDamageClass, pokemon, moves
+    enum PTypeKey: String, CodingKey {
+        case pokemon, moves
+        case damageRelations = "damage_relations"
+        case moveDamageClass = "move_damage_class"
     }
     
     required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: PTypeKey.self)
         self.damageRelations = try container.decode(PTypeDamageRelations.self, forKey: .damageRelations)
-        self.moveDamageClass = try container.decode(NameURLStructure.self, forKey: .moveDamageClass)
+        self.moveDamageClass = try container.decode(PokemonNameURLStructure.self, forKey: .moveDamageClass)
         self.pokemon = try container.decode([PTypePokemon].self, forKey: .pokemon)
-        self.moves = try container.decode([NameURLStructure].self, forKey: .moves)
+        self.moves = try container.decode([PokemonNameURLStructure].self, forKey: .moves)
         try super.init(from: decoder)
     }
     
@@ -37,14 +39,14 @@ class PType: PokemonSuperClass {
 }
 
 struct PTypeDamageRelations: Codable {
-    let noDamageTo: [NameURLStructure]
-    let halfDamageTo: [NameURLStructure]
-    let doubleDamageTo: [NameURLStructure]
-    let noDamageFrom: [NameURLStructure]
-    let halfDamangeTo: [NameURLStructure]
-    let doubleDamageFrom: [NameURLStructure]
+    let noDamageTo: [PokemonNameURLStructure]
+    let halfDamageTo: [PokemonNameURLStructure]
+    let doubleDamageTo: [PokemonNameURLStructure]
+    let noDamageFrom: [PokemonNameURLStructure]
+    let halfDamangeTo: [PokemonNameURLStructure]
+    let doubleDamageFrom: [PokemonNameURLStructure]
 }
 
 struct PTypePokemon: Codable {
-    let pokemon: NameURLStructure
+    let pokemon: PokemonNameURLStructure
 }
