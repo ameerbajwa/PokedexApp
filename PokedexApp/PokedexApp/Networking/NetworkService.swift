@@ -17,10 +17,9 @@ struct NetworkService {
         self.decoder = jsonDecoder
     }
     
-    func callPokeAPI(with endpoint: Endpoint,
-                     by id: Int?,
-                     completionHandler: @escaping (Result<PokemonSuperClass, Error>) -> Void) {
-        let model = endpoint.model
+    func callPokeAPI<T: Codable>(with endpoint: Endpoint,
+                                 by id: Int?,
+                                 completionHandler: @escaping (Result<T, Error>) -> Void) {
         let pokeAPIUrlString = generatePokeAPIUrl(with: endpoint, by: id)
         let pokeAPIUrl = URL(string: pokeAPIUrlString)
         guard let safePokeAPIUrl = pokeAPIUrl else {
@@ -36,7 +35,7 @@ struct NetworkService {
             }
             
             do {
-                let responseModel = try decoder.decode(model, from: safePokeAPIData)
+                let responseModel = try decoder.decode(T.self, from: safePokeAPIData)
                 completionHandler(.success(responseModel))
             } catch {
                 print("error: \(error)")

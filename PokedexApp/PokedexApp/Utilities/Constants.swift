@@ -51,17 +51,4 @@ public enum Endpoint {
             return "type/"
         }
     }
-    
-    var model: PokemonSuperClass.Type {
-        switch self {
-        case .species:
-            return PSpecies.self
-        case .pokemon:
-            return Pokemon.self
-        case .move:
-            return PMove.self
-        case .type:
-            return PType.self
-        }
-    }
 }
