@@ -24,7 +24,7 @@ class PokedexViewController: UIViewController {
         self.view.backgroundColor = .white
         self.safeArea = view.layoutMarginsGuide
         
-        setupPokedexTable(table: pokedexTableView)
+        setupPokedexTable()
 
         networkService = NetworkService(urlSession: URLSession.shared,
                                         jsonDecoder: JSONDecoder())
@@ -32,31 +32,34 @@ class PokedexViewController: UIViewController {
             switch result {
             case .success(let response):
                 self.pokemonList = response
+                DispatchQueue.main.async {
+                    self.pokedexTableView.reloadData()
+                }
             case .failure(let error):
                 print(error)
             }
         }
     }
     
-    func setupPokedexTable(table: UITableView) {
-        self.view.addSubview(table)
-        table.translatesAutoresizingMaskIntoConstraints = false
+    func setupPokedexTable() {
+        self.view.addSubview(pokedexTableView)
+        pokedexTableView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            table.topAnchor.constraint(equalTo: view.topAnchor),
-            table.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            table.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            table.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+            pokedexTableView.topAnchor.constraint(equalTo: safeArea.topAnchor),
+            pokedexTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            pokedexTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            pokedexTableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
         
-        table.register(UITableViewCell.self, forCellReuseIdentifier: "pokemonCell")
-        table.dataSource = self
+        pokedexTableView.register(UITableViewCell.self, forCellReuseIdentifier: "pokemonCell")
+        pokedexTableView.dataSource = self
     }
 }
 
 extension PokedexViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         guard let pokemonCount = self.pokemonList?.results.count else {
-            return 0
+            return 10
         }
         return pokemonCount
     }

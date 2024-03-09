@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		DE31004A2B7469A300761D3B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE3100492B7469A300761D3B /* AppDelegate.swift */; };
 		DE31004C2B7469A300761D3B /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE31004B2B7469A300761D3B /* SceneDelegate.swift */; };
-		DE31004E2B7469A300761D3B /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE31004D2B7469A300761D3B /* ViewController.swift */; };
 		DE3100532B7469A400761D3B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DE3100522B7469A400761D3B /* Assets.xcassets */; };
 		DE3100562B7469A400761D3B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DE3100542B7469A400761D3B /* LaunchScreen.storyboard */; };
 		DE31005F2B746B5B00761D3B /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE31005E2B746B5B00761D3B /* NetworkService.swift */; };
@@ -27,7 +26,6 @@
 		DE3100462B7469A300761D3B /* PokedexApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PokedexApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DE3100492B7469A300761D3B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		DE31004B2B7469A300761D3B /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		DE31004D2B7469A300761D3B /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		DE3100522B7469A400761D3B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		DE3100552B7469A400761D3B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		DE3100572B7469A400761D3B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -117,7 +115,6 @@
 		DE35EEE12B982F3500534CAC /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				DE31004D2B7469A300761D3B /* ViewController.swift */,
 				DE35EEE22B982F5700534CAC /* PokedexViewController.swift */,
 			);
 			path = Controllers;
@@ -195,7 +192,6 @@
 			files = (
 				DE3100622B746D3400761D3B /* Constants.swift in Sources */,
 				DE3A634E2B786488007A8FAF /* PSpecies.swift in Sources */,
-				DE31004E2B7469A300761D3B /* ViewController.swift in Sources */,
 				DE31004A2B7469A300761D3B /* AppDelegate.swift in Sources */,
 				DE3A63502B786654007A8FAF /* PMove.swift in Sources */,
 				DE31005F2B746B5B00761D3B /* NetworkService.swift in Sources */,
