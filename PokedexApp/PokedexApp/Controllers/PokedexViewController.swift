@@ -10,6 +10,8 @@ import UIKit
 
 class PokedexViewController: UIViewController {
     
+    var loadingView: LoadingView!
+    
     var pokedexTableView: UITableView!
     var safeArea: UILayoutGuide!
     var networkService: NetworkService!
@@ -19,10 +21,15 @@ class PokedexViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        loadingView = LoadingView()
         pokedexTableView = UITableView()
         
         self.view.backgroundColor = .white
         self.safeArea = view.layoutMarginsGuide
+        
+        DispatchQueue.main.async {
+            self.loadingView.displayLoadingView(with: "Loading", on: self.view)
+        }
         
         setupPokedexTable()
 
@@ -34,6 +41,7 @@ class PokedexViewController: UIViewController {
                 self.pokemonList = response
                 DispatchQueue.main.async {
                     self.pokedexTableView.reloadData()
+                    self.loadingView.dismissLoadingView()
                 }
             case .failure(let error):
                 print(error)
