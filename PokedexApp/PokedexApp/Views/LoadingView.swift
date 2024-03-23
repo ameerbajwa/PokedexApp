@@ -10,7 +10,6 @@ import UIKit
 
 class LoadingView: UIView {
     var loader: UIActivityIndicatorView?
-    var loadingView: UIView?
     var loaderMessageLabel: UILabel?
 
     func generateLoadingView(with customMessage: String?) {
@@ -18,9 +17,8 @@ class LoadingView: UIView {
         loader?.color = UIColor.black
         loader?.startAnimating()
         
-        loadingView = UIView()
-        loadingView?.backgroundColor = UIColor(red: 238/255, green: 238/255, blue: 238/255, alpha: 1)
-        loadingView?.layer.cornerRadius = 10.0
+        self.backgroundColor = UIColor(red: 238/255, green: 238/255, blue: 238/255, alpha: 1)
+        self.layer.cornerRadius = 10.0
         
         if let message = customMessage {
             loaderMessageLabel = UILabel()
@@ -30,42 +28,45 @@ class LoadingView: UIView {
             loaderMessageLabel?.numberOfLines = 0
         }
         
-        guard let safeLoader = loader, let safeLoadingView = loadingView else { return }
+        guard let safeLoader = loader else { return }
         
-        safeLoadingView.addSubview(safeLoader)
+        self.addSubview(safeLoader)
         safeLoader.translatesAutoresizingMaskIntoConstraints = false
         
-        safeLoader.centerXAnchor.constraint(equalTo: safeLoadingView.centerXAnchor).isActive = true
-        safeLoader.topAnchor.constraint(equalTo: safeLoadingView.topAnchor, constant: 20.0).isActive = true
+        safeLoader.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
         
-        if loaderMessageLabel != nil {
-            loaderMessageLabel?.bottomAnchor.constraint(equalTo: safeLoadingView.bottomAnchor, constant: -10).isActive = true
+        guard let safeLoaderMessageLabel = loaderMessageLabel else {
+            safeLoader.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
+            return
         }
+        
+        self.addSubview(safeLoaderMessageLabel)
+        safeLoaderMessageLabel.translatesAutoresizingMaskIntoConstraints = false
+        
+        safeLoader.topAnchor.constraint(equalTo: self.topAnchor, constant: 20.0).isActive = true
+        safeLoaderMessageLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -10).isActive = true
     }
     
     func displayLoadingView(with customMessage: String?, on superView: UIView) {
         generateLoadingView(with: customMessage)
-        
-        guard let safeLoadingView = loadingView else { return }
-        
-        superView.addSubview(safeLoadingView)
-        safeLoadingView.translatesAutoresizingMaskIntoConstraints = false
+                
+        superView.addSubview(self)
+        self.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            safeLoadingView.centerXAnchor.constraint(equalTo: superView.centerXAnchor),
-            safeLoadingView.centerYAnchor.constraint(equalTo: superView.centerYAnchor),
-            safeLoadingView.widthAnchor.constraint(equalToConstant: 80.0),
-            safeLoadingView.heightAnchor.constraint(equalToConstant: 80.0)
+            self.centerXAnchor.constraint(equalTo: superView.centerXAnchor),
+            self.centerYAnchor.constraint(equalTo: superView.centerYAnchor),
+            self.widthAnchor.constraint(equalToConstant: 80.0),
+            self.heightAnchor.constraint(equalToConstant: 80.0)
         ])
     }
     
     func dismissLoadingView() {
-        guard let safeLoader = loader, let safeLoadingView = loadingView else { return }
-        safeLoadingView.removeFromSuperview()
+        guard let safeLoader = loader else { return }
+        self.removeFromSuperview()
         safeLoader.removeFromSuperview()
         
         loader = nil
-        loadingView = nil
         loaderMessageLabel = nil
     }
     
