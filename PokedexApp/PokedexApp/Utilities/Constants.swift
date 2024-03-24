@@ -53,3 +53,8 @@ public enum Endpoint {
         }
     }
 }
+
+enum CompletionHandlerResponse {
+    case success
+    case failure
+}
