@@ -19,7 +19,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         
         let window = UIWindow(windowScene: windowScene)
-        window.rootViewController = PokedexViewController()
+        let networkService = NetworkService(urlSession: URLSession.shared,
+                                            jsonDecoder: JSONDecoder())
+        window.rootViewController = PokedexViewController(service: networkService)
         self.window = window
         window.makeKeyAndVisible()
         
