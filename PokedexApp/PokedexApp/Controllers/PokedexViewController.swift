@@ -62,7 +62,7 @@ class PokedexViewController: UIViewController {
             pokedexTableView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor)
         ])
         
-        pokedexTableView.register(UITableViewCell.self, forCellReuseIdentifier: "pokemonCell")
+        pokedexTableView.register(PokedexTableViewCell.self, forCellReuseIdentifier: "pokedexCell")
         pokedexTableView.dataSource = self
         pokedexTableView.delegate = self
     }
@@ -77,12 +77,9 @@ extension PokedexViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let pokemonList = pokemonListViewModel.pokemonList else {
-            return UITableViewCell()
-        }
-        let pokemonCell = tableView.dequeueReusableCell(withIdentifier: "pokemonCell", for: indexPath)
-        pokemonCell.textLabel?.text = pokemonList.results[indexPath.row].name
-        return pokemonCell
+        let pokedexCell = pokedexTableView.dequeueReusableCell(withIdentifier: "pokedexCell", for: indexPath) as? PokedexTableViewCell
+        pokedexCell?.pokemonListViewModel = pokemonListViewModel
+        return pokedexCell!
     }
 }
 
