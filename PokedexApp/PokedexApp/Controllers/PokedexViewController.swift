@@ -70,7 +70,7 @@ class PokedexViewController: UIViewController {
 
 extension PokedexViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        guard let pokemonCount = self.pokemonListViewModel.pokemonList?.results.count else {
+        guard let pokemonCount = self.pokemonListViewModel.pokemonList?.pokemon.count else {
             return 10
         }
         return pokemonCount
