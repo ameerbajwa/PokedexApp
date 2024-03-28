@@ -34,18 +34,10 @@ class PokemonListViewModel {
 
 extension PokemonListViewModel {
     func createVMPokemonList(with pList: PList) {
-//        var proxyPokemonList: [VMPokemonInfo] = []
         let proxyPokemonList = pList.results.map ({ (pokemon) -> VMPokemonInfo in
             return VMPokemonInfo(name: pokemon.name, imageUrl: generatePokemonImageUrl(using: pokemon.url))
         })
-//        pList.results.forEach { pokemon in
-//            var proxyPokemon: VMPokemonInfo = VMPokemonInfo(name: pokemon.name, imageUrl: generatePokemonImageUrl(using: pokemon.url))
-//            proxyPokemonList.append(proxyPokemon)
-//        }
-        pokemonList?.pokemon = pList.results.map ({ (pokemon) -> VMPokemonInfo in
-            return VMPokemonInfo(name: pokemon.name, imageUrl: generatePokemonImageUrl(using: pokemon.url))
-        })
-//        pokemonList = VMPList(pokemon: proxyPokemonList)
+        pokemonList = VMPList(pokemon: proxyPokemonList)
     }
     
     func generatePokemonImageUrl(using pokemonUrl: String) -> String {
