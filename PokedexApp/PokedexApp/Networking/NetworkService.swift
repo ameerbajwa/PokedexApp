@@ -43,6 +43,22 @@ struct NetworkService {
         }.resume()
         
     }
+    
+    func retrievePokemonImageData(using pokemonImageUrlString: String, completionHandler: @escaping (Data?) -> Void) {
+        let pokemonImageUrl = URL(string: pokemonImageUrlString)
+        guard let safePokemonImageUrl = pokemonImageUrl else {
+            return
+        }
+        
+        session.dataTask(with: safePokemonImageUrl) { imageData, response, error in
+            guard error == nil else {
+                print("could not retrieve image")
+                completionHandler(nil)
+                return
+            }
+            completionHandler(imageData)
+        }
+    }
 }
 
 extension NetworkService {

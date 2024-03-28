@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 
 class VMPList {
     var pokemon: [VMPokemonInfo]
@@ -17,14 +18,14 @@ class VMPList {
 
 class VMPokemonInfo {
     var name: String
-    var imageUrl: String
-    var imageData: Data?
+    var url: String
+    var image: UIImage?
     var caught: Bool?
     
-    init(name: String, imageUrl: String, imageData: Data? = nil, caught: Bool? = nil) {
+    init(name: String, url: String, image: UIImage? = nil, caught: Bool? = nil) {
         self.name = name
-        self.imageUrl = imageUrl
-        self.imageData = imageData
+        self.url = url
+        self.image = image
         self.caught = caught
     }
 }

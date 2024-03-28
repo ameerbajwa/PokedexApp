@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 
 class PokemonListViewModel {
     
@@ -35,7 +36,17 @@ class PokemonListViewModel {
 extension PokemonListViewModel {
     func createVMPokemonList(with pList: PList) {
         let proxyPokemonList = pList.results.map ({ (pokemon) -> VMPokemonInfo in
-            return VMPokemonInfo(name: pokemon.name, imageUrl: generatePokemonImageUrl(using: pokemon.url))
+            let pokemonImageUrlString = generatePokemonImageUrl(using: pokemon.url)
+            var pokemonImageUrlImage: UIImage?
+            networkService.retrievePokemonImageData(using: pokemonImageUrlString) { imageData in
+                guard let safeImageData = imageData else {
+                    print("could not obtain image data")
+                    pokemonImageUrlImage = nil
+                    return
+                }
+                pokemonImageUrlImage = UIImage(data: safeImageData)
+            }
+            return VMPokemonInfo(name: pokemon.name, url: pokemon.url, image: pokemonImageUrlImage)
         })
         pokemonList = VMPList(pokemon: proxyPokemonList)
     }
