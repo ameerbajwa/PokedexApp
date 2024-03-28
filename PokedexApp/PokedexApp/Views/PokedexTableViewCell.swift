@@ -10,11 +10,10 @@ import UIKit
 
 class PokedexTableViewCell: UITableViewCell {
     
-    var pokemonNameLabel: UILabel!
-    var pokemonImageView: UIImageView!
-    var pokeballImageView: UIImageView!
+    var pokemonNameLabel = UILabel()
+    var pokemonImageView = UIImageView()
     
-    var pokemonListViewModel: PokemonListViewModel!
+    var pokemonListViewModel: PokemonListViewModel?
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -33,9 +32,8 @@ class PokedexTableViewCell: UITableViewCell {
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        setPokemonNameLabel()
         setPokemonImageView()
-        setPokeballImageView()
+        setPokemonNameLabel()
     }
     
     func setPokemonImageView() {
@@ -44,32 +42,33 @@ class PokedexTableViewCell: UITableViewCell {
         
         NSLayoutConstraint.activate([
             pokemonImageView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 15.0),
-            pokemonImageView.centerXAnchor.constraint(equalTo: self.centerXAnchor),
+            pokemonImageView.centerYAnchor.constraint(equalTo: self.centerYAnchor),
             pokemonImageView.widthAnchor.constraint(equalToConstant: 80.0),
             pokemonImageView.heightAnchor.constraint(equalToConstant: 80.0)
         ])
     }
     
     func setPokemonNameLabel() {
+        pokemonNameLabel.font = .boldSystemFont(ofSize: 14)
+        
         addSubview(pokemonNameLabel)
         pokemonNameLabel.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            pokemonNameLabel.centerXAnchor.constraint(equalTo: self.centerXAnchor),
+            pokemonNameLabel.centerYAnchor.constraint(equalTo: self.centerYAnchor),
             pokemonNameLabel.leadingAnchor.constraint(equalTo: pokemonImageView.trailingAnchor, constant: 10.0)
         ])
     }
-    
-    func setPokeballImageView() {
-        addSubview(pokeballImageView)
-        pokeballImageView.translatesAutoresizingMaskIntoConstraints = false
-        
-        NSLayoutConstraint.activate([
-            pokeballImageView.centerXAnchor.constraint(equalTo: self.centerXAnchor),
-            pokeballImageView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -20.0),
-            pokeballImageView.widthAnchor.constraint(equalToConstant: 30.0),
-            pokemonImageView.heightAnchor.constraint(equalToConstant: 30.0)
-        ])
+}
+
+extension PokedexTableViewCell {
+    func setValues(for row: Int) {
+        self.pokemonNameLabel.text = self.pokemonListViewModel?.pokemonList?.pokemon[row].name
+        guard let pokemonImageUrl = self.pokemonListViewModel?.pokemonList?.pokemon[row].imageUrl else {
+            return
+        }
+        Task {
+            self.pokemonImageView.image = await self.pokemonListViewModel?.generatePokemonImage(using: pokemonImageUrl)
+        }
     }
-    
 }

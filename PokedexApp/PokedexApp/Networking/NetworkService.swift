@@ -43,6 +43,16 @@ struct NetworkService {
         }.resume()
         
     }
+    
+    func retrievePokemonImageData(using pokemonImageUrlString: String) async throws -> Data? {
+        let pokemonImageUrl = URL(string: pokemonImageUrlString)
+        guard let safePokemonImageUrl = pokemonImageUrl else {
+            throw URLError(.badServerResponse, userInfo: [:])
+        }
+        
+        let (imageData, _) = try await session.data(from: safePokemonImageUrl)
+        return imageData
+    }
 }
 
 extension NetworkService {

@@ -69,22 +69,29 @@ class PokedexViewController: UIViewController {
 }
 
 extension PokedexViewController: UITableViewDataSource {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 100.0
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         guard let pokemonCount = self.pokemonListViewModel.pokemonList?.pokemon.count else {
-            return 10
+            return 1
         }
         return pokemonCount
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let pokedexCell = pokedexTableView.dequeueReusableCell(withIdentifier: "pokedexCell", for: indexPath) as? PokedexTableViewCell
-        pokedexCell?.pokemonListViewModel = pokemonListViewModel
-        return pokedexCell!
+        guard let pokedexCell = pokedexTableView.dequeueReusableCell(withIdentifier: "pokedexCell", for: indexPath) as? PokedexTableViewCell else {
+            return UITableViewCell()
+        }
+        pokedexCell.pokemonListViewModel = pokemonListViewModel
+        pokedexCell.setValues(for: indexPath.row)
+        return pokedexCell
     }
 }
 
 extension PokedexViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        print(self.pokemonListViewModel.pokemonList?.results[indexPath.row].spriteUrl ?? "No Url")
+        print(self.pokemonListViewModel.pokemonList?.pokemon[indexPath.row].url ?? "No Url")
     }
 }
