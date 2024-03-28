@@ -37,16 +37,7 @@ extension PokemonListViewModel {
     func createVMPokemonList(with pList: PList) {
         let proxyPokemonList = pList.results.map ({ (pokemon) -> VMPokemonInfo in
             let pokemonImageUrlString = generatePokemonImageUrl(using: pokemon.url)
-            var pokemonImageUrlImage: UIImage?
-            networkService.retrievePokemonImageData(using: pokemonImageUrlString) { imageData in
-                guard let safeImageData = imageData else {
-                    print("could not obtain image data")
-                    pokemonImageUrlImage = nil
-                    return
-                }
-                pokemonImageUrlImage = UIImage(data: safeImageData)
-            }
-            return VMPokemonInfo(name: pokemon.name, url: pokemon.url, image: pokemonImageUrlImage)
+            return VMPokemonInfo(name: pokemon.name, url: pokemon.url, imageUrl: pokemonImageUrlString)
         })
         pokemonList = VMPList(pokemon: proxyPokemonList)
     }
@@ -54,5 +45,19 @@ extension PokemonListViewModel {
     func generatePokemonImageUrl(using pokemonUrl: String) -> String {
         let pokemonUrlComponents = pokemonUrl.components(separatedBy: "/")
         return Constants.spriteImageBaseURL + "/\(pokemonUrlComponents[pokemonUrlComponents.endIndex-2]).png"
+    }
+    
+    func generatePokemonImage(using pokemonUrl: String) async -> UIImage? {
+        do {
+            let imageData = try await networkService.retrievePokemonImageData(using: pokemonUrl)
+            guard let safeImageData = imageData, let pokemonImage = UIImage(data: safeImageData) else {
+                print("could not obtain image data")
+                return nil
+            }
+            return pokemonImage
+        } catch {
+            print(error)
+            return nil
+        }
     }
 }

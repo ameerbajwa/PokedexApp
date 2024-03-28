@@ -44,20 +44,14 @@ struct NetworkService {
         
     }
     
-    func retrievePokemonImageData(using pokemonImageUrlString: String, completionHandler: @escaping (Data?) -> Void) {
+    func retrievePokemonImageData(using pokemonImageUrlString: String) async throws -> Data? {
         let pokemonImageUrl = URL(string: pokemonImageUrlString)
         guard let safePokemonImageUrl = pokemonImageUrl else {
-            return
+            throw URLError(.badServerResponse, userInfo: [:])
         }
         
-        session.dataTask(with: safePokemonImageUrl) { imageData, response, error in
-            guard error == nil else {
-                print("could not retrieve image")
-                completionHandler(nil)
-                return
-            }
-            completionHandler(imageData)
-        }
+        let (imageData, _) = try await session.data(from: safePokemonImageUrl)
+        return imageData
     }
 }
 

@@ -19,13 +19,11 @@ class VMPList {
 class VMPokemonInfo {
     var name: String
     var url: String
-    var image: UIImage?
-    var caught: Bool?
+    var imageUrl: String
     
-    init(name: String, url: String, image: UIImage? = nil, caught: Bool? = nil) {
+    init(name: String, url: String, imageUrl: String) {
         self.name = name
         self.url = url
-        self.image = image
-        self.caught = caught
+        self.imageUrl = imageUrl
     }
 }
