@@ -12,6 +12,7 @@ class PokedexTableViewCell: UITableViewCell {
     
     var pokemonNameLabel = UILabel()
     var pokemonImageView = UIImageView()
+    var pokeballImageView = PokeballImageView()
     
     var pokemonListViewModel: PokemonListViewModel?
     
@@ -34,6 +35,7 @@ class PokedexTableViewCell: UITableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setPokemonImageView()
         setPokemonNameLabel()
+        setPokeballImageView()
     }
     
     func setPokemonImageView() {
@@ -49,14 +51,28 @@ class PokedexTableViewCell: UITableViewCell {
     }
     
     func setPokemonNameLabel() {
-        pokemonNameLabel.font = .boldSystemFont(ofSize: 14)
+        pokemonNameLabel.font = .boldSystemFont(ofSize: 20)
         
         addSubview(pokemonNameLabel)
         pokemonNameLabel.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
             pokemonNameLabel.centerYAnchor.constraint(equalTo: self.centerYAnchor),
-            pokemonNameLabel.leadingAnchor.constraint(equalTo: pokemonImageView.trailingAnchor, constant: 10.0)
+            pokemonNameLabel.leadingAnchor.constraint(equalTo: pokemonImageView.trailingAnchor, constant: 15.0)
+        ])
+    }
+    
+    func setPokeballImageView() {
+        pokeballImageView.createPokeballImage()
+        
+        addSubview(pokeballImageView)
+        pokeballImageView.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            pokeballImageView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -10.0),
+            pokeballImageView.centerYAnchor.constraint(equalTo: self.centerYAnchor),
+            pokeballImageView.heightAnchor.constraint(equalToConstant: 20.0),
+            pokeballImageView.widthAnchor.constraint(equalToConstant: 20.0)
         ])
     }
 }
