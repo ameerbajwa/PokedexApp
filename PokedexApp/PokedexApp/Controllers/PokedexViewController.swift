@@ -62,32 +62,36 @@ class PokedexViewController: UIViewController {
             pokedexTableView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor)
         ])
         
-        pokedexTableView.register(UITableViewCell.self, forCellReuseIdentifier: "pokemonCell")
+        pokedexTableView.register(PokedexTableViewCell.self, forCellReuseIdentifier: "pokedexCell")
         pokedexTableView.dataSource = self
         pokedexTableView.delegate = self
     }
 }
 
 extension PokedexViewController: UITableViewDataSource {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 100.0
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        guard let pokemonCount = self.pokemonListViewModel.pokemonList?.results.count else {
-            return 10
+        guard let pokemonCount = self.pokemonListViewModel.pokemonList?.pokemon.count else {
+            return 1
         }
         return pokemonCount
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let pokemonList = pokemonListViewModel.pokemonList else {
+        guard let pokedexCell = pokedexTableView.dequeueReusableCell(withIdentifier: "pokedexCell", for: indexPath) as? PokedexTableViewCell else {
             return UITableViewCell()
         }
-        let pokemonCell = tableView.dequeueReusableCell(withIdentifier: "pokemonCell", for: indexPath)
-        pokemonCell.textLabel?.text = pokemonList.results[indexPath.row].name
-        return pokemonCell
+        pokedexCell.pokemonListViewModel = pokemonListViewModel
+        pokedexCell.setValues(for: indexPath.row)
+        return pokedexCell
     }
 }
 
 extension PokedexViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        print(self.pokemonListViewModel.pokemonList?.results[indexPath.row].spriteUrl ?? "No Url")
+        print(self.pokemonListViewModel.pokemonList?.pokemon[indexPath.row].url ?? "No Url")
     }
 }
