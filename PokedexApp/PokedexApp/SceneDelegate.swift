@@ -21,7 +21,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let window = UIWindow(windowScene: windowScene)
         let networkService = NetworkService(urlSession: URLSession.shared,
                                             jsonDecoder: JSONDecoder())
-        window.rootViewController = PokedexViewController(service: networkService)
+        window.rootViewController = PokedexGenerationViewController(service: networkService)
         self.window = window
         window.makeKeyAndVisible()
         
