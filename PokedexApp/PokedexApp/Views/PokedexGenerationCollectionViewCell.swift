@@ -13,10 +13,14 @@ class PokedexGenerationCollectionViewCell: UICollectionViewCell {
     var generationLabel = UILabel()
     
     func setupGenerationLabel(of generation: Int) {
-        generationLabel.text = "Generation \(generation)"
-        generationLabel.font = .boldSystemFont(ofSize: 16.0)
+        generationLabel.text = "Generation \n\(generation + 1)"
+        generationLabel.numberOfLines = 0
+        generationLabel.font = .boldSystemFont(ofSize: 20.0)
         generationLabel.textAlignment = .center
-        generationLabel.textColor = .white
+        generationLabel.textColor = .black
+        
+        self.layer.borderWidth = 5.0
+        self.layer.borderColor = UIColor.black.cgColor
         
         addSubview(generationLabel)
         generationLabel.translatesAutoresizingMaskIntoConstraints = false

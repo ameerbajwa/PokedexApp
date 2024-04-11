@@ -14,15 +14,23 @@ class PokedexGenerationView: UIView {
     var pokedexGenerationCollectionView: UICollectionView!
     
     func setupView() {
-        let flowLayout = UICollectionViewFlowLayout()
+        let flowLayout = setupPokedexGenerationFlowLayout()
         pokedexGenerationCollectionView = UICollectionView(frame: self.bounds, collectionViewLayout: flowLayout)
         setupPokedexGenerationLabel()
         setupPokedexGenerationCollectionView()
     }
     
+    func setupPokedexGenerationFlowLayout() -> UICollectionViewFlowLayout {
+        let flowLayout = UICollectionViewFlowLayout()
+        flowLayout.itemSize = CGSize(width: 150.0, height: 90.0)
+        flowLayout.sectionInset = UIEdgeInsets(top: 5.0, left: 10.0, bottom: 10.0, right: 10.0)
+        return flowLayout
+    }
+    
     func setupPokedexGenerationLabel() {
-        pokedexGenerationLabel.text = "Choose Pokemon Generation"
-        pokedexGenerationLabel.font = .boldSystemFont(ofSize: 26.0)
+        pokedexGenerationLabel.text = "Welcome to the Universal Pokedex \n- \nChoose Pokemon Generation"
+        pokedexGenerationLabel.numberOfLines = 0
+        pokedexGenerationLabel.font = .boldSystemFont(ofSize: 28.0)
         pokedexGenerationLabel.textAlignment = .center
         
         addSubview(pokedexGenerationLabel)
@@ -32,7 +40,7 @@ class PokedexGenerationView: UIView {
             pokedexGenerationLabel.topAnchor.constraint(equalTo: self.topAnchor),
             pokedexGenerationLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 20.0),
             pokedexGenerationLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -20.0),
-            pokedexGenerationLabel.heightAnchor.constraint(equalToConstant: 50.0)
+            pokedexGenerationLabel.heightAnchor.constraint(equalToConstant: 200.0)
         ])
     }
     

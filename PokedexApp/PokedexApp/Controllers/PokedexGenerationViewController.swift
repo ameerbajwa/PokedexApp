@@ -65,12 +65,12 @@ extension PokedexGenerationViewController: UICollectionViewDelegate, UICollectio
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "generationCell", for: indexPath as IndexPath) as! PokedexGenerationCollectionViewCell
-        cell.backgroundColor = .red
-        cell.setupGenerationLabel(of: indexPath.row)
+        cell.backgroundColor = .white
+        cell.setupGenerationLabel(of: (indexPath.row))
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        print("Selected Generation \(indexPath.row)")
+        print("Selected Generation \(indexPath.row + 1)")
     }
 }
