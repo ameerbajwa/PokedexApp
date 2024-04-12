@@ -30,6 +30,7 @@
 		DE90A60B2B805FFE00DBDEB2 /* PokemonSuperClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE90A60A2B805FFE00DBDEB2 /* PokemonSuperClass.swift */; };
 		DED9BC432BC7667F00DD4284 /* CoordinatorProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = DED9BC422BC7667F00DD4284 /* CoordinatorProtocol.swift */; };
 		DED9BC452BC7687F00DD4284 /* SceneCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = DED9BC442BC7687F00DD4284 /* SceneCoordinator.swift */; };
+		DED9BC472BC76C5B00DD4284 /* PokedexGenerationCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = DED9BC462BC76C5B00DD4284 /* PokedexGenerationCoordinator.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -58,6 +59,7 @@
 		DE90A60A2B805FFE00DBDEB2 /* PokemonSuperClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokemonSuperClass.swift; sourceTree = "<group>"; };
 		DED9BC422BC7667F00DD4284 /* CoordinatorProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoordinatorProtocol.swift; sourceTree = "<group>"; };
 		DED9BC442BC7687F00DD4284 /* SceneCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneCoordinator.swift; sourceTree = "<group>"; };
+		DED9BC462BC76C5B00DD4284 /* PokedexGenerationCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokedexGenerationCoordinator.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -170,6 +172,7 @@
 			children = (
 				DED9BC422BC7667F00DD4284 /* CoordinatorProtocol.swift */,
 				DED9BC442BC7687F00DD4284 /* SceneCoordinator.swift */,
+				DED9BC462BC76C5B00DD4284 /* PokedexGenerationCoordinator.swift */,
 			);
 			path = Coordinators;
 			sourceTree = "<group>";
@@ -257,6 +260,7 @@
 				DE90A60B2B805FFE00DBDEB2 /* PokemonSuperClass.swift in Sources */,
 				DE852E192BBA380500FCA9B9 /* PokedexGenerationCollectionViewCell.swift in Sources */,
 				DED9BC452BC7687F00DD4284 /* SceneCoordinator.swift in Sources */,
+				DED9BC472BC76C5B00DD4284 /* PokedexGenerationCoordinator.swift in Sources */,
 				DE35EEE32B982F5700534CAC /* PokedexViewController.swift in Sources */,
 				DE5DD7C52BB65DC1001E4ED3 /* PokeballImageView.swift in Sources */,
 				DE31004C2B7469A300761D3B /* SceneDelegate.swift in Sources */,

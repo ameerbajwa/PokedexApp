@@ -11,16 +11,12 @@ import UIKit
 class SceneCoordinator: CoordinatorProtocol {
     let window: UIWindow?
     
-    let networkService: NetworkService
-    let pokedexGenerationViewController: PokedexGenerationViewController
-
+    var pokedexGenerationCoordinator: PokedexGenerationCoordinator
+    
     init(window: UIWindow?) {
         self.window = window
         
-        let session = URLSession.shared
-        let decoder = JSONDecoder()
-        self.networkService = NetworkService(urlSession: session, jsonDecoder: decoder)
-        self.pokedexGenerationViewController = PokedexGenerationViewController(service: networkService)
+        self.pokedexGenerationCoordinator = PokedexGenerationCoordinator()
     }
 
     func start() {
@@ -28,7 +24,7 @@ class SceneCoordinator: CoordinatorProtocol {
             return
         }
 
-        window.rootViewController = self.pokedexGenerationViewController
+        window.rootViewController = self.pokedexGenerationCoordinator.pokedexGenerationViewController
         window.makeKeyAndVisible()
     }
     
