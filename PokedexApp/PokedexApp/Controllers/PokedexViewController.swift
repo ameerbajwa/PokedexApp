@@ -16,8 +16,9 @@ class PokedexViewController: UIViewController {
     var pokedexTableView: UITableView!
     var safeArea: UILayoutGuide!
     
-    init(service networkService: NetworkService) {
-        self.pokemonListViewModel = PokemonListViewModel(networkService: networkService)
+    init(viewModel: PokemonListViewModel) {
+        pokemonListViewModel = viewModel
+        
         super.init(nibName: nil, bundle: nil)
         
         loadingView = LoadingView()

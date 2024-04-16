@@ -6,22 +6,35 @@
 //
 
 import Foundation
+import UIKit
 
 class PokedexGenerationCoordinator: CoordinatorProtocol {
     
+    var navigationController: UINavigationController
     let networkService: NetworkService
-    let pokedexGenerationViewController: PokedexGenerationViewController
+    
+    var pokedexGenerationViewController: PokedexGenerationViewController?
+    var pokedexCoordinator: PokedexCoordinator?
     
     init() {
+        navigationController = UINavigationController()
+        
         let session = URLSession.shared
         let decoder = JSONDecoder()
         
         self.networkService = NetworkService(urlSession: session, jsonDecoder: decoder)
-        self.pokedexGenerationViewController = PokedexGenerationViewController(service: networkService)
+        
     }
     
-    func start() {}
+    func start() {
+        let pokedexGenerationView = PokedexGenerationView()
+        self.pokedexGenerationViewController = PokedexGenerationViewController(service: networkService, view: pokedexGenerationView)
+        guard let safePokedexGenerationVC = pokedexGenerationViewController else { return }
+        navigationController.viewControllers = [safePokedexGenerationVC]
+    }
     
-    func finish() {}
+    func finish() {
+        self.pokedexCoordinator = PokedexCoordinator(service: networkService)
+    }
     
 }
