@@ -13,14 +13,15 @@ class PokedexGenerationViewController: UIViewController {
     let networkService: NetworkService
     var safeArea: UILayoutGuide!
     
-    var pokedexGenerationView = PokedexGenerationView()
+    var pokedexGenerationView: PokedexGenerationView
     
-    init(service: NetworkService) {
+    init(service: NetworkService, view: PokedexGenerationView) {
         self.networkService = service
+        self.pokedexGenerationView = view
         super.init(nibName: nil, bundle: nil)
         
         self.view.backgroundColor = .white
-        self.safeArea = view.layoutMarginsGuide
+        self.safeArea = self.view.layoutMarginsGuide
     }
     
     required init?(coder: NSCoder) {
