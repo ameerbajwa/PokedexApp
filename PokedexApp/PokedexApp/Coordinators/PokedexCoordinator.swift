@@ -14,11 +14,11 @@ class PokedexCoordinator {
     let pokemonListViewModel: PokemonListViewModel
     let pokedexViewController: PokedexViewController
     
-    init(service: NetworkService, navigationController: UINavigationController) {
+    init(service: NetworkService, navigationController: UINavigationController, generation: Int) {
         self.networkService = service
         self.navigationController = navigationController
         
-        self.pokemonListViewModel = PokemonListViewModel(networkService: networkService)
+        self.pokemonListViewModel = PokemonListViewModel(networkService: networkService, generation: generation)
         self.pokedexViewController = PokedexViewController(viewModel: pokemonListViewModel)
         self.pokedexViewController.coordinator = self
     }

@@ -62,7 +62,7 @@ extension PokedexGenerationViewController: UICollectionViewDelegate, UICollectio
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 9
+        return 8
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -74,6 +74,6 @@ extension PokedexGenerationViewController: UICollectionViewDelegate, UICollectio
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         print("Selected Generation \(indexPath.row + 1)")
-        coordinator?.selectPokemonGeneration()
+        coordinator?.selectPokemonGeneration(generation: (indexPath.row + 1))
     }
 }

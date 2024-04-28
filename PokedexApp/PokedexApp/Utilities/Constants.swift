@@ -9,8 +9,7 @@ import Foundation
 
 public struct Constants {
     static let baseURL = "https://pokeapi.co/api/"
-    static let firstGenerationPokemonListParameter = "?offset=0&limit=151"
-    static let spriteImageBaseURL = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iii/firered-leafgreen"
+    static let spriteImageBaseURL = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon"
 }
 
 public enum UrlVersion {
