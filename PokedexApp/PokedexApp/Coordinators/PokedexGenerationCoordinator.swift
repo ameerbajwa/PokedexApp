@@ -30,8 +30,8 @@ class PokedexGenerationCoordinator {
         self.navigationController.pushViewController(pokedexGenerationViewController, animated: false)
     }
     
-    func selectPokemonGeneration() {
-        let pokedexCoordinator = PokedexCoordinator(service: self.networkService, navigationController: self.navigationController)
+    func selectPokemonGeneration(generation: Int) {
+        let pokedexCoordinator = PokedexCoordinator(service: self.networkService, navigationController: self.navigationController, generation: generation)
         pokedexCoordinator.start()
     }
 }
