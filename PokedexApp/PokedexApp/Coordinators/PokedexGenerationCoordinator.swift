@@ -8,33 +8,30 @@
 import Foundation
 import UIKit
 
-class PokedexGenerationCoordinator: CoordinatorProtocol {
-    
+class PokedexGenerationCoordinator {
     var navigationController: UINavigationController
+
     let networkService: NetworkService
-    
-    var pokedexGenerationViewController: PokedexGenerationViewController?
-    var pokedexCoordinator: PokedexCoordinator?
-    
-    init() {
-        navigationController = UINavigationController()
+    var pokedexGenerationViewController: PokedexGenerationViewController
+        
+    init(navigationController: UINavigationController) {
+        self.navigationController = navigationController
         
         let session = URLSession.shared
         let decoder = JSONDecoder()
-        
         self.networkService = NetworkService(urlSession: session, jsonDecoder: decoder)
         
+        let pokedexGenerationView = PokedexGenerationView()
+        self.pokedexGenerationViewController = PokedexGenerationViewController(service: networkService, view: pokedexGenerationView)
+        self.pokedexGenerationViewController.coordinator = self
     }
     
     func start() {
-        let pokedexGenerationView = PokedexGenerationView()
-        self.pokedexGenerationViewController = PokedexGenerationViewController(service: networkService, view: pokedexGenerationView)
-        guard let safePokedexGenerationVC = pokedexGenerationViewController else { return }
-        navigationController.viewControllers = [safePokedexGenerationVC]
+        self.navigationController.pushViewController(pokedexGenerationViewController, animated: false)
     }
     
-    func finish() {
-        self.pokedexCoordinator = PokedexCoordinator(service: networkService)
+    func selectPokemonGeneration() {
+        let pokedexCoordinator = PokedexCoordinator(service: self.networkService, navigationController: self.navigationController)
+        pokedexCoordinator.start()
     }
-    
 }

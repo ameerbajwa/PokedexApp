@@ -10,9 +10,10 @@ import UIKit
 
 class PokedexGenerationViewController: UIViewController {
     
+    weak var coordinator: PokedexGenerationCoordinator?
     let networkService: NetworkService
-    var safeArea: UILayoutGuide!
     
+    var safeArea: UILayoutGuide!
     var pokedexGenerationView: PokedexGenerationView
     
     init(service: NetworkService, view: PokedexGenerationView) {
@@ -73,5 +74,6 @@ extension PokedexGenerationViewController: UICollectionViewDelegate, UICollectio
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         print("Selected Generation \(indexPath.row + 1)")
+        coordinator?.selectPokemonGeneration()
     }
 }
