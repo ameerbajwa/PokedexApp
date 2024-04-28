@@ -30,8 +30,6 @@
 		DE852E192BBA380500FCA9B9 /* PokedexGenerationCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE852E182BBA380500FCA9B9 /* PokedexGenerationCollectionViewCell.swift */; };
 		DE8BDBA02BAA91760041DB47 /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE8BDB9F2BAA91760041DB47 /* LoadingView.swift */; };
 		DE90A60B2B805FFE00DBDEB2 /* PokemonSuperClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE90A60A2B805FFE00DBDEB2 /* PokemonSuperClass.swift */; };
-		DED9BC432BC7667F00DD4284 /* CoordinatorProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = DED9BC422BC7667F00DD4284 /* CoordinatorProtocol.swift */; };
-		DED9BC452BC7687F00DD4284 /* SceneCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = DED9BC442BC7687F00DD4284 /* SceneCoordinator.swift */; };
 		DED9BC472BC76C5B00DD4284 /* PokedexGenerationCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = DED9BC462BC76C5B00DD4284 /* PokedexGenerationCoordinator.swift */; };
 /* End PBXBuildFile section */
 
@@ -61,8 +59,6 @@
 		DE852E182BBA380500FCA9B9 /* PokedexGenerationCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokedexGenerationCollectionViewCell.swift; sourceTree = "<group>"; };
 		DE8BDB9F2BAA91760041DB47 /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
 		DE90A60A2B805FFE00DBDEB2 /* PokemonSuperClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokemonSuperClass.swift; sourceTree = "<group>"; };
-		DED9BC422BC7667F00DD4284 /* CoordinatorProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoordinatorProtocol.swift; sourceTree = "<group>"; };
-		DED9BC442BC7687F00DD4284 /* SceneCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneCoordinator.swift; sourceTree = "<group>"; };
 		DED9BC462BC76C5B00DD4284 /* PokedexGenerationCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokedexGenerationCoordinator.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -175,8 +171,6 @@
 		DED9BC402BC765D100DD4284 /* Coordinators */ = {
 			isa = PBXGroup;
 			children = (
-				DED9BC422BC7667F00DD4284 /* CoordinatorProtocol.swift */,
-				DED9BC442BC7687F00DD4284 /* SceneCoordinator.swift */,
 				DED9BC462BC76C5B00DD4284 /* PokedexGenerationCoordinator.swift */,
 				DE4AF0A42BC8D8E80006B90A /* PokedexCoordinator.swift */,
 			);
@@ -255,7 +249,6 @@
 			files = (
 				DE3100622B746D3400761D3B /* Constants.swift in Sources */,
 				DE3A634E2B786488007A8FAF /* PSpecies.swift in Sources */,
-				DED9BC432BC7667F00DD4284 /* CoordinatorProtocol.swift in Sources */,
 				DE31004A2B7469A300761D3B /* AppDelegate.swift in Sources */,
 				DE4AF0A32BC8D06E0006B90A /* PGeneration.swift in Sources */,
 				DE3A63502B786654007A8FAF /* PMove.swift in Sources */,
@@ -266,7 +259,6 @@
 				DE8BDBA02BAA91760041DB47 /* LoadingView.swift in Sources */,
 				DE90A60B2B805FFE00DBDEB2 /* PokemonSuperClass.swift in Sources */,
 				DE852E192BBA380500FCA9B9 /* PokedexGenerationCollectionViewCell.swift in Sources */,
-				DED9BC452BC7687F00DD4284 /* SceneCoordinator.swift in Sources */,
 				DED9BC472BC76C5B00DD4284 /* PokedexGenerationCoordinator.swift in Sources */,
 				DE4AF0A52BC8D8E80006B90A /* PokedexCoordinator.swift in Sources */,
 				DE35EEE32B982F5700534CAC /* PokedexViewController.swift in Sources */,

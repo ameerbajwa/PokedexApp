@@ -10,6 +10,7 @@ import UIKit
 
 class PokedexViewController: UIViewController {
     
+    weak var coordinator: PokedexCoordinator?
     var pokemonListViewModel: PokemonListViewModel
     
     var loadingView: LoadingView!

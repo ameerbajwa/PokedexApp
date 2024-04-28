@@ -9,8 +9,8 @@ import Foundation
 
 struct NetworkService {
     
-    var session: URLSession!
-    var decoder: JSONDecoder!
+    var session: URLSession
+    var decoder: JSONDecoder
     
     init(urlSession: URLSession, jsonDecoder: JSONDecoder) {
         self.session = urlSession

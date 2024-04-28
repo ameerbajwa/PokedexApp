@@ -20,12 +20,7 @@ class SceneCoordinator: CoordinatorProtocol {
     }
 
     func start() {
-        guard let window = window else {
-            return
-        }
         
-        window.rootViewController = self.pokedexGenerationCoordinator.navigationController
-        window.makeKeyAndVisible()
     }
     
     func finish() {

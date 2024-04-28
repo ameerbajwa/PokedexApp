@@ -6,25 +6,25 @@
 //
 
 import Foundation
+import UIKit
 
-class PokedexCoordinator: CoordinatorProtocol {
-    
+class PokedexCoordinator {
+    var navigationController: UINavigationController
     let networkService: NetworkService
     let pokemonListViewModel: PokemonListViewModel
     let pokedexViewController: PokedexViewController
     
-    init(service: NetworkService) {
+    init(service: NetworkService, navigationController: UINavigationController) {
         self.networkService = service
+        self.navigationController = navigationController
         
         self.pokemonListViewModel = PokemonListViewModel(networkService: networkService)
         self.pokedexViewController = PokedexViewController(viewModel: pokemonListViewModel)
+        self.pokedexViewController.coordinator = self
     }
     
     func start() {
-        
+        navigationController.pushViewController(pokedexViewController, animated: false)
     }
     
-    func finish() {
-        
-    }
 }
