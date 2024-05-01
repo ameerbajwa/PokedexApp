@@ -11,20 +11,24 @@ import UIKit
 class PokedexCoordinator {
     var navigationController: UINavigationController
     let networkService: NetworkService
-    let pokemonListViewModel: PokemonListViewModel
-    let pokedexViewController: PokedexViewController
+    let viewModel: PokemonListViewModel
+    let controller: PokedexViewController
     
     init(service: NetworkService, navigationController: UINavigationController, generation: Int) {
         self.networkService = service
         self.navigationController = navigationController
         
-        self.pokemonListViewModel = PokemonListViewModel(networkService: networkService, generation: generation)
-        self.pokedexViewController = PokedexViewController(viewModel: pokemonListViewModel)
-        self.pokedexViewController.coordinator = self
+        self.viewModel = PokemonListViewModel(networkService: networkService, generation: generation)
+        self.controller = PokedexViewController(viewModel: viewModel)
+        self.controller.coordinator = self
     }
     
     func start() {
-        navigationController.pushViewController(pokedexViewController, animated: false)
+        navigationController.pushViewController(controller, animated: false)
+    }
+    
+    func selectPokemon() {
+        
     }
     
 }
