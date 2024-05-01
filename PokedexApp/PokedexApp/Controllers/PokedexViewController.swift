@@ -95,6 +95,5 @@ extension PokedexViewController: UITableViewDataSource {
 extension PokedexViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         print(self.pokemonListViewModel.pokemonList?.pokemon[indexPath.row].url ?? "No Url")
-        coordinator
     }
 }
