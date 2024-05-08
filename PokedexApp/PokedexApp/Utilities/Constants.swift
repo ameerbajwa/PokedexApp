@@ -39,6 +39,7 @@ public enum Endpoint {
     case move
     case type
     case generation
+    case ability
     
     var value: String {
         switch self {
@@ -52,6 +53,8 @@ public enum Endpoint {
             return "type/"
         case .generation:
             return "generation/"
+        case .ability:
+            return "ability/"
         }
     }
 }

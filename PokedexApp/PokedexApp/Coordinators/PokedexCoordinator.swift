@@ -27,8 +27,9 @@ class PokedexCoordinator {
         navigationController.pushViewController(controller, animated: false)
     }
     
-    func selectPokemon() {
-        
+    func selectPokemon(at id: Int) {
+        let pokemonDetailsCoordinator = PokemonDetailsCoordinator(navigationController: navigationController, networkService: networkService, pokemonId: id)
+        pokemonDetailsCoordinator.start()
     }
     
 }

@@ -70,3 +70,23 @@ class PokemonDetailsViewModel {
         }
     }
 }
+
+extension PokemonDetailsViewModel {
+    func generatePokemonImage() async -> UIImage? {
+        guard let imageUrl = self.masterPokemonDetails?.pokemonDetails.sprites.frontPokemonImageUrl else {
+            return nil
+        }
+        
+        do {
+            let imageData = try await networkService.retrievePokemonImageData(using: imageUrl)
+            guard let safeImageData = imageData, let pokemonImage = UIImage(data: safeImageData) else {
+                print("could not obtain image data")
+                return nil
+            }
+            return pokemonImage
+        } catch {
+            print(error)
+            return nil
+        }
+    }
+}
