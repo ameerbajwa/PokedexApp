@@ -75,7 +75,7 @@ class PokemonDetailsView: UIView {
         } else {
             typeLabel.text = "TYPE: \(masterPokemonDetails.pokemonDetails.types[0].type.name)"
         }
-        regionLabel.text = "REGION: \(masterPokemonDetails.pokemonSpeciesDetails.habitat)"
+        regionLabel.text = "REGION: \(masterPokemonDetails.pokemonSpeciesDetails.habitat.name)"
         Task {
             self.imageView.image = await self.viewModel?.generatePokemonImage()
         }

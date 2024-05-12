@@ -13,6 +13,7 @@ class PokemonDetailsViewController: UIViewController {
     weak var coordinator: PokemonDetailsCoordinator?
     var pokemonDetailsViewModel: PokemonDetailsViewModel
     
+    var loadingView: LoadingView!
     var detailsView: PokemonDetailsView
     
     var safeArea: UILayoutGuide!
@@ -22,17 +23,9 @@ class PokemonDetailsViewController: UIViewController {
         self.detailsView = detailsView
         super.init(nibName: nil, bundle: nil)
         
+        loadingView = LoadingView()
+        self.view.backgroundColor = .white
         self.safeArea = view.layoutMarginsGuide
-        
-        self.pokemonDetailsViewModel.retrievePokemonDetails { result in
-            switch result {
-            case .success:
-                self.detailsView.viewModel = self.pokemonDetailsViewModel
-                self.detailsView.setValues()
-            case .failure:
-                print("Error")
-            }
-        }
     }
     
     required init?(coder: NSCoder) {
@@ -42,7 +35,16 @@ class PokemonDetailsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         DispatchQueue.main.async {
-            self.setupDetailsView()
+            self.loadingView.displayLoadingView(with: "Loading Pokemon Details", on: self.view)
+            self.pokemonDetailsViewModel.retrievePokemonDetails { result in
+                switch result {
+                case .success:
+                    self.detailsView.viewModel = self.pokemonDetailsViewModel
+                    self.setupDetailsView()
+                case .failure:
+                    print("Error")
+                }
+            }
         }
     }
     
@@ -58,5 +60,8 @@ class PokemonDetailsViewController: UIViewController {
             detailsView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             detailsView.heightAnchor.constraint(equalToConstant: 170.0)
         ])
+        
+        self.detailsView.setValues()
+        self.loadingView.dismissLoadingView()
     }
 }

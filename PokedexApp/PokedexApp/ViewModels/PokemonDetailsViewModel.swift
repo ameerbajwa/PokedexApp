@@ -74,8 +74,11 @@ class PokemonDetailsViewModel {
 extension PokemonDetailsViewModel {
     func generatePokemonImage() async -> UIImage? {
         guard let imageUrl = self.masterPokemonDetails?.pokemonDetails.sprites.frontPokemonImageUrl else {
+            print("image error")
             return nil
         }
+        print("URL")
+        print(imageUrl)
         
         do {
             let imageData = try await networkService.retrievePokemonImageData(using: imageUrl)
@@ -85,6 +88,7 @@ extension PokemonDetailsViewModel {
             }
             return pokemonImage
         } catch {
+            print("CATCH")
             print(error)
             return nil
         }

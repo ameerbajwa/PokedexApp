@@ -10,7 +10,7 @@ import Foundation
 class PSpecies: PokemonSuperClass {
     let flavorTextEntries: [PFlavorTextEntry]
     let evolutionChain: PSpeciesEvolutionChainUrl
-    let evolvesFromSpecies: PokemonNameURLStructure
+    let evolvesFromSpecies: PokemonNameURLStructure?
     let habitat: PokemonNameURLStructure
     
     enum PSpeciesKeys: String, CodingKey {
@@ -24,7 +24,7 @@ class PSpecies: PokemonSuperClass {
         let container = try decoder.container(keyedBy: PSpeciesKeys.self)
         self.flavorTextEntries = try container.decode([PFlavorTextEntry].self, forKey: .flavorTextEntries)
         self.evolutionChain = try container.decode(PSpeciesEvolutionChainUrl.self, forKey: .evolutionChain)
-        self.evolvesFromSpecies = try container.decode(PokemonNameURLStructure.self, forKey: .evolvesFromSpecies)
+        self.evolvesFromSpecies = try container.decodeIfPresent(PokemonNameURLStructure.self, forKey: .evolvesFromSpecies)
         self.habitat = try container.decode(PokemonNameURLStructure.self, forKey: .habitat)
         try super.init(from: decoder)
     }
@@ -34,7 +34,7 @@ class PSpecies: PokemonSuperClass {
         var container = encoder.container(keyedBy: PSpeciesKeys.self)
         try container.encode(self.flavorTextEntries, forKey: .flavorTextEntries)
         try container.encode(self.evolutionChain, forKey: .evolutionChain)
-        try container.encode(self.evolvesFromSpecies, forKey: .evolvesFromSpecies)
+        try container.encodeIfPresent(self.evolvesFromSpecies, forKey: .evolvesFromSpecies)
         try container.encode(self.habitat, forKey: .habitat)
     }
 }
