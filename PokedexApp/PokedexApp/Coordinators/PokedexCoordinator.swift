@@ -8,23 +8,29 @@
 import Foundation
 import UIKit
 
-class PokedexCoordinator {
+class PokedexCoordinator: Coordinator {
+    weak var parentCoordinator: MainCoordinator?
     var navigationController: UINavigationController
     let networkService: NetworkService
-    let pokemonListViewModel: PokemonListViewModel
-    let pokedexViewController: PokedexViewController
+    var viewModel: PokemonListViewModel
+    var controller: PokedexViewController
     
-    init(service: NetworkService, navigationController: UINavigationController, generation: Int) {
+    init(parentCoordinator: MainCoordinator, service: NetworkService, navigationController: UINavigationController, generation: Int) {
+        self.parentCoordinator = parentCoordinator
         self.networkService = service
         self.navigationController = navigationController
         
-        self.pokemonListViewModel = PokemonListViewModel(networkService: networkService, generation: generation)
-        self.pokedexViewController = PokedexViewController(viewModel: pokemonListViewModel)
-        self.pokedexViewController.coordinator = self
+        self.viewModel = PokemonListViewModel(networkService: networkService, generation: generation)
+        self.controller = PokedexViewController(viewModel: viewModel)
     }
     
     func start() {
-        navigationController.pushViewController(pokedexViewController, animated: false)
+        controller.coordinator = self
+        navigationController.pushViewController(controller, animated: false)
+    }
+    
+    func selectPokemon(at id: Int) {
+        parentCoordinator?.createPokemonDetailsCoordinator(pokemonId: id)
     }
     
 }

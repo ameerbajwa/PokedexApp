@@ -12,9 +12,11 @@ class Pokemon: PokemonSuperClass {
     let species: PokemonNameURLStructure
     let types: [PokemonType]
     let stats: [PokemonStat]
+    let sprites: PokemonSprites
+    let abilities: [PokemonAbility]
     
     private enum PokemonKeys: String, CodingKey {
-        case moves, species, types, stats
+        case moves, species, types, stats, sprites, abilities
     }
     
     required init(from decoder: Decoder) throws {
@@ -23,6 +25,8 @@ class Pokemon: PokemonSuperClass {
         self.species = try container.decode(PokemonNameURLStructure.self, forKey: .species)
         self.types = try container.decode([PokemonType].self, forKey: .types)
         self.stats = try container.decode([PokemonStat].self, forKey: .stats)
+        self.sprites = try container.decode(PokemonSprites.self, forKey: .sprites)
+        self.abilities = try container.decode([PokemonAbility].self, forKey: .abilities)
         try super.init(from: decoder)
     }
     
@@ -33,6 +37,8 @@ class Pokemon: PokemonSuperClass {
         try container.encode(self.species, forKey: .species)
         try container.encode(self.types, forKey: .types)
         try container.encode(self.stats, forKey: .stats)
+        try container.encode(self.sprites, forKey: .sprites)
+        try container.encode(self.abilities, forKey: .abilities)
     }
 }
 
@@ -95,4 +101,30 @@ class PokemonStat: Codable {
         try container.encode(self.effort, forKey: .effort)
         try container.encode(self.stat, forKey: .stat)
     }
+}
+
+class PokemonSprites: Codable {
+    let frontPokemonImageUrl: String
+    let backPokemonImageUrl: String
+    
+    private enum PokemonSpritesKeys: String, CodingKey {
+        case frontPokemonImageUrl = "front_default"
+        case backPokemonImageUrl = "back_default"
+    }
+    
+    required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: PokemonSpritesKeys.self)
+        self.frontPokemonImageUrl = try container.decode(String.self, forKey: .frontPokemonImageUrl)
+        self.backPokemonImageUrl = try container.decode(String.self, forKey: .backPokemonImageUrl)
+    }
+    
+    func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: PokemonSpritesKeys.self)
+        try container.encode(self.frontPokemonImageUrl, forKey: .frontPokemonImageUrl)
+        try container.encode(self.backPokemonImageUrl, forKey: .backPokemonImageUrl)
+    }
+}
+
+struct PokemonAbility: Codable {
+    let ability: PokemonNameURLStructure
 }

@@ -8,30 +8,31 @@
 import Foundation
 import UIKit
 
-class PokedexGenerationCoordinator {
+class PokedexGenerationCoordinator: Coordinator {
+    weak var parentCoordinator: MainCoordinator?
     var navigationController: UINavigationController
 
     let networkService: NetworkService
-    var pokedexGenerationViewController: PokedexGenerationViewController
+    var controller: PokedexGenerationViewController
         
-    init(navigationController: UINavigationController) {
+    init(navigationController: UINavigationController, parentCoordinator: MainCoordinator) {
         self.navigationController = navigationController
+        self.parentCoordinator = parentCoordinator
         
         let session = URLSession.shared
         let decoder = JSONDecoder()
         self.networkService = NetworkService(urlSession: session, jsonDecoder: decoder)
         
-        let pokedexGenerationView = PokedexGenerationView()
-        self.pokedexGenerationViewController = PokedexGenerationViewController(service: networkService, view: pokedexGenerationView)
-        self.pokedexGenerationViewController.coordinator = self
+        let view = PokedexGenerationView()
+        self.controller = PokedexGenerationViewController(service: networkService, view: view)
     }
     
     func start() {
-        self.navigationController.pushViewController(pokedexGenerationViewController, animated: false)
+        controller.coordinator = self
+        self.navigationController.pushViewController(controller, animated: false)
     }
     
     func selectPokemonGeneration(generation: Int) {
-        let pokedexCoordinator = PokedexCoordinator(service: self.networkService, navigationController: self.navigationController, generation: generation)
-        pokedexCoordinator.start()
+        parentCoordinator?.createPokedexCoordinator(generation: generation)
     }
 }
