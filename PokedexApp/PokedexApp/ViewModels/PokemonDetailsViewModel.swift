@@ -46,7 +46,7 @@ class PokemonDetailsViewModel {
     
     func callPokemonAPI() {
         dispatchGroup.enter()
-        networkService.callPokeAPI(with: .pokemon, by: pokemonId) { (result: Result<Pokemon, Error>) in
+        networkService.callPokeAPI(with: .pokemon, by: pokemonId, startingId: nil, endingId: nil) { (result: Result<Pokemon, Error>) in
             switch result {
             case .success(let response):
                 self.pokemonDetails = response
@@ -59,7 +59,7 @@ class PokemonDetailsViewModel {
     
     func callPokemonSpeciesAPI() {
         dispatchGroup.enter()
-        networkService.callPokeAPI(with: .species, by: pokemonId) { (result: Result<PSpecies, Error>) in
+        networkService.callPokeAPI(with: .species, by: pokemonId, startingId: nil, endingId: nil) { (result: Result<PSpecies, Error>) in
             switch result {
             case .success(let response):
                 self.pokemonSpeciesDetails = response
@@ -74,22 +74,16 @@ class PokemonDetailsViewModel {
 extension PokemonDetailsViewModel {
     func generatePokemonImage() async -> UIImage? {
         guard let imageUrl = self.masterPokemonDetails?.pokemonDetails.sprites.frontPokemonImageUrl else {
-            print("image error")
             return nil
         }
-        print("URL")
-        print(imageUrl)
         
         do {
             let imageData = try await networkService.retrievePokemonImageData(using: imageUrl)
             guard let safeImageData = imageData, let pokemonImage = UIImage(data: safeImageData) else {
-                print("could not obtain image data")
                 return nil
             }
             return pokemonImage
         } catch {
-            print("CATCH")
-            print(error)
             return nil
         }
     }

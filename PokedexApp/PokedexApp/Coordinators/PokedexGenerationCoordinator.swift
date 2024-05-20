@@ -24,7 +24,8 @@ class PokedexGenerationCoordinator: Coordinator {
         self.networkService = NetworkService(urlSession: session, jsonDecoder: decoder)
         
         let view = PokedexGenerationView()
-        self.controller = PokedexGenerationViewController(service: networkService, view: view)
+        let viewModel = PokemonGenerationViewModel(networkService: networkService)
+        self.controller = PokedexGenerationViewController(viewModel: viewModel, view: view)
     }
     
     func start() {
@@ -32,7 +33,7 @@ class PokedexGenerationCoordinator: Coordinator {
         self.navigationController.pushViewController(controller, animated: false)
     }
     
-    func selectPokemonGeneration(generation: Int) {
-        parentCoordinator?.createPokedexCoordinator(generation: generation)
+    func selectPokemonGeneration(configuration: PokedexConfiguration) {
+        parentCoordinator?.createPokedexCoordinator(configuration: configuration)
     }
 }

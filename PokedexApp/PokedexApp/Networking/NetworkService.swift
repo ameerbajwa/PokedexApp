@@ -18,9 +18,11 @@ struct NetworkService {
     }
     
     func callPokeAPI<T: Codable>(with endpoint: Endpoint,
-                                 by id: Int,
+                                 by id: Int?,
+                                 startingId: Int?,
+                                 endingId: Int?,
                                  completionHandler: @escaping (Result<T, Error>) -> Void) {
-        let pokeAPIUrlString = generatePokeAPIUrl(with: endpoint, by: id)
+        let pokeAPIUrlString = generatePokeAPIUrl(with: endpoint, by: id, startingId: startingId, endingId: endingId)
         let pokeAPIUrl = URL(string: pokeAPIUrlString)
         guard let safePokeAPIUrl = pokeAPIUrl else {
             return
@@ -56,7 +58,12 @@ struct NetworkService {
 }
 
 extension NetworkService {
-    func generatePokeAPIUrl(with endpoint: Endpoint, by id: Int) -> String {
-        return Constants.baseURL + UrlVersion.v2.value + endpoint.value + "\(id)"
+    func generatePokeAPIUrl(with endpoint: Endpoint, by id: Int?, startingId: Int?, endingId: Int?) -> String {
+        let pokeAPIUrlString = Constants.baseURL + UrlVersion.v2.value + endpoint.value
+        guard let safeId = id else {
+            guard let startingId = startingId, let endingId = endingId else { return "" }
+            return pokeAPIUrlString + "/limit=\(endingId)&offset=\(startingId-1)"
+        }
+        return pokeAPIUrlString + "\(safeId)"
     }
 }

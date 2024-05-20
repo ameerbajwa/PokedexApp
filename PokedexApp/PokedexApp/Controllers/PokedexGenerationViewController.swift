@@ -11,16 +11,18 @@ import UIKit
 class PokedexGenerationViewController: UIViewController {
     
     weak var coordinator: PokedexGenerationCoordinator?
-    let networkService: NetworkService
+    let viewModel: PokemonGenerationViewModel
     
+    var loadingView: LoadingView!
     var safeArea: UILayoutGuide!
     var pokedexGenerationView: PokedexGenerationView
     
-    init(service: NetworkService, view: PokedexGenerationView) {
-        self.networkService = service
+    init(viewModel: PokemonGenerationViewModel, view: PokedexGenerationView) {
+        self.viewModel = viewModel
         self.pokedexGenerationView = view
         super.init(nibName: nil, bundle: nil)
         
+        loadingView = LoadingView()
         self.view.backgroundColor = .white
         self.safeArea = self.view.layoutMarginsGuide
     }
@@ -32,11 +34,24 @@ class PokedexGenerationViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         DispatchQueue.main.async {
-            self.setupPokedexGenerationView()
+            self.loadingView.displayLoadingView(with: "Loading Pokedex Generations", on: self.view)
+        }
+        
+        self.viewModel.retrievePokemonGenerations { result in
+            switch result {
+            case .success:
+                DispatchQueue.main.async {
+                    self.setupPokedexGenerationView {
+                        self.loadingView.dismissLoadingView()
+                    }
+                }
+            case .failure:
+                print("error")
+            }
         }
     }
     
-    func setupPokedexGenerationView() {
+    func setupPokedexGenerationView(completionHandler: @escaping () -> Void) {
         self.pokedexGenerationView.setupView()
         
         pokedexGenerationView.pokedexGenerationCollectionView.register(PokedexGenerationCollectionViewCell.self, forCellWithReuseIdentifier: "generationCell")
@@ -74,6 +89,9 @@ extension PokedexGenerationViewController: UICollectionViewDelegate, UICollectio
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         print("Selected Generation \(indexPath.row + 1)")
-        coordinator?.selectPokemonGeneration(generation: (indexPath.row + 1))
+        guard let configuration = viewModel.pokedexConfigurations[indexPath.row + 1] else {
+            return
+        }
+        coordinator?.selectPokemonGeneration(configuration: configuration)
     }
 }
