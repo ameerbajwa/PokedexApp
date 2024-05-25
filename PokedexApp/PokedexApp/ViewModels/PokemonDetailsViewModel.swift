@@ -12,6 +12,7 @@ import Dispatch
 class PokemonDetailsViewModel {
     let dispatchGroup: DispatchGroup
     let networkService: NetworkService
+    let configuration: PokedexConfiguration
     let pokemonId: Int
     
     var masterPokemonDetails: VMPokemon?
@@ -20,8 +21,9 @@ class PokemonDetailsViewModel {
     var pokemonSpeciesDetails: PSpecies?
     var pokemonSpeciesError: Error?
     
-    init(networkService: NetworkService, pokemonId: Int) {
+    init(networkService: NetworkService, configuration: PokedexConfiguration, pokemonId: Int) {
         self.networkService = networkService
+        self.configuration = configuration
         self.pokemonId = pokemonId
         
         self.dispatchGroup = DispatchGroup()
@@ -39,7 +41,7 @@ class PokemonDetailsViewModel {
                 completionHandler(.failure)
                 return
             }
-            self.masterPokemonDetails = VMPokemon(pokemon: safePokemonDetails, pokemonSpecies: safePokemonSpeciesDetails)
+            self.masterPokemonDetails = VMPokemon(pokemon: safePokemonDetails, pokemonSpecies: safePokemonSpeciesDetails, configuration: self.configuration)
             completionHandler(.success)
         }
     }

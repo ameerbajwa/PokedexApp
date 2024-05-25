@@ -17,12 +17,12 @@ class PokemonDetailsCoordinator: Coordinator {
     let detailsView: PokemonDetailsView
     var controller: PokemonDetailsViewController
     
-    init(parentCoordinator: MainCoordinator, navigationController: UINavigationController, networkService: NetworkService, pokemonId: Int) {
+    init(parentCoordinator: MainCoordinator, navigationController: UINavigationController, networkService: NetworkService, configuration: PokedexConfiguration, pokemonId: Int) {
         self.parentCoordinator = parentCoordinator
         self.navigationController = navigationController
         self.networkService = networkService
         
-        self.viewModel = PokemonDetailsViewModel(networkService: networkService, pokemonId: pokemonId)
+        self.viewModel = PokemonDetailsViewModel(networkService: networkService, configuration: configuration, pokemonId: pokemonId)
         self.detailsView = PokemonDetailsView()
         self.controller = PokemonDetailsViewController(viewModel: viewModel, detailsView: detailsView)
         print("PokemonDetailsViewController and associated services/views have been initialized")

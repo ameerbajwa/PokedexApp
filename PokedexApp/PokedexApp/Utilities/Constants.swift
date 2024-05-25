@@ -36,6 +36,7 @@ enum HttpMethod: String {
 public enum Endpoint {
     case species
     case pokemon
+    case pokemonList
     case move
     case type
     case generation
@@ -47,6 +48,8 @@ public enum Endpoint {
             return "pokemon-species/"
         case .pokemon:
             return "pokemon/"
+        case .pokemonList:
+            return "pokemon?"
         case .move:
             return "move/"
         case .type:

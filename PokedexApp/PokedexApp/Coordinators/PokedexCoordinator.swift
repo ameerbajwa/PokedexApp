@@ -29,8 +29,8 @@ class PokedexCoordinator: Coordinator {
         navigationController.pushViewController(controller, animated: false)
     }
     
-    func selectPokemon(at id: Int) {
-        parentCoordinator?.createPokemonDetailsCoordinator(pokemonId: id)
+    func selectPokemon(configuration: PokedexConfiguration, at id: Int) {
+        parentCoordinator?.createPokemonDetailsCoordinator(configuration: configuration, pokemonId: id)
     }
     
 }

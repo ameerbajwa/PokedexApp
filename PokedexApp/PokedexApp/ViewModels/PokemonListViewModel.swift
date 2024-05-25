@@ -21,7 +21,7 @@ class PokemonListViewModel {
     }
     
     func retrievePokemonList(completionHandler: @escaping (CompletionHandlerResponse) -> Void) {
-        networkService.callPokeAPI(with: .pokemon, by: nil, startingId: configuration.startingPokemonId, endingId: configuration.endingPokemonId) { (result: Result<PList, Error>) in
+        networkService.callPokeAPI(with: .pokemonList, by: nil, startingId: configuration.startingPokemonId, endingId: configuration.endingPokemonId) { (result: Result<PList, Error>) in
             switch result {
             case .success(let response):
                 self.createVMPokemonList(with: response)
