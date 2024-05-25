@@ -15,12 +15,12 @@ class PokedexCoordinator: Coordinator {
     var viewModel: PokemonListViewModel
     var controller: PokedexViewController
     
-    init(parentCoordinator: MainCoordinator, service: NetworkService, navigationController: UINavigationController, generation: Int) {
+    init(parentCoordinator: MainCoordinator, service: NetworkService, navigationController: UINavigationController, configuration: PokedexConfiguration) {
         self.parentCoordinator = parentCoordinator
         self.networkService = service
         self.navigationController = navigationController
         
-        self.viewModel = PokemonListViewModel(networkService: networkService, generation: generation)
+        self.viewModel = PokemonListViewModel(networkService: networkService, configuration: configuration)
         self.controller = PokedexViewController(viewModel: viewModel)
     }
     
@@ -29,8 +29,8 @@ class PokedexCoordinator: Coordinator {
         navigationController.pushViewController(controller, animated: false)
     }
     
-    func selectPokemon(at id: Int) {
-        parentCoordinator?.createPokemonDetailsCoordinator(pokemonId: id)
+    func selectPokemon(configuration: PokedexConfiguration, at id: Int) {
+        parentCoordinator?.createPokemonDetailsCoordinator(configuration: configuration, pokemonId: id)
     }
     
 }

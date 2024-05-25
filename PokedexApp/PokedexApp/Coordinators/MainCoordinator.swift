@@ -33,14 +33,14 @@ class MainCoordinator {
         pokedexGenerationCoordinator.start()
     }
     
-    func createPokedexCoordinator(generation: Int) {
-        let pokedexCoordinator = PokedexCoordinator(parentCoordinator: self, service: networkService, navigationController: navigationController, generation: generation)
+    func createPokedexCoordinator(configuration: PokedexConfiguration) {
+        let pokedexCoordinator = PokedexCoordinator(parentCoordinator: self, service: networkService, navigationController: navigationController, configuration: configuration)
         childCoordinators.append(pokedexCoordinator)
         pokedexCoordinator.start()
     }
     
-    func createPokemonDetailsCoordinator(pokemonId: Int) {
-        let pokemonDetailsCoordinator = PokemonDetailsCoordinator(parentCoordinator: self, navigationController: navigationController, networkService: networkService, pokemonId: pokemonId)
+    func createPokemonDetailsCoordinator(configuration: PokedexConfiguration, pokemonId: Int) {
+        let pokemonDetailsCoordinator = PokemonDetailsCoordinator(parentCoordinator: self, navigationController: navigationController, networkService: networkService, configuration: configuration, pokemonId: pokemonId)
         childCoordinators.append(pokemonDetailsCoordinator)
         pokemonDetailsCoordinator.start()
     }

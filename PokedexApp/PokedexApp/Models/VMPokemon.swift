@@ -10,9 +10,11 @@ import Foundation
 class VMPokemon {
     var pokemonDetails: Pokemon
     var pokemonSpeciesDetails: PSpecies
+    var pokedexConfiguration: PokedexConfiguration
     
-    init(pokemon: Pokemon, pokemonSpecies: PSpecies) {
+    init(pokemon: Pokemon, pokemonSpecies: PSpecies, configuration: PokedexConfiguration) {
         self.pokemonDetails = pokemon
         self.pokemonSpeciesDetails = pokemonSpecies
+        self.pokedexConfiguration = configuration
     }
 }

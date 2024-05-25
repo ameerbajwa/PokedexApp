@@ -11,17 +11,17 @@ import UIKit
 class PokemonListViewModel {
     
     var networkService: NetworkService
-    var generation: Int
+    var configuration: PokedexConfiguration
     var pokemonList: VMPList?
     var pokemonListError: Error?
     
-    init(networkService: NetworkService, generation: Int) {
+    init(networkService: NetworkService, configuration: PokedexConfiguration) {
         self.networkService = networkService
-        self.generation = generation
+        self.configuration = configuration
     }
     
     func retrievePokemonList(completionHandler: @escaping (CompletionHandlerResponse) -> Void) {
-        networkService.callPokeAPI(with: .generation, by: generation) { (result: Result<PGeneration, Error>) in
+        networkService.callPokeAPI(with: .pokemonList, by: nil, startingId: configuration.startingPokemonId, endingId: configuration.endingPokemonId) { (result: Result<PList, Error>) in
             switch result {
             case .success(let response):
                 self.createVMPokemonList(with: response)
@@ -36,8 +36,8 @@ class PokemonListViewModel {
 }
 
 extension PokemonListViewModel {
-    func createVMPokemonList(with pGeneration: PGeneration) {
-        let proxyPokemonList = pGeneration.pokemonSpecies.map ({ (pokemon) -> VMPokemonInfo in
+    func createVMPokemonList(with pGeneration: PList) {
+        let proxyPokemonList = pGeneration.results.map ({ (pokemon) -> VMPokemonInfo in
             let pokemonImageUrlString = generatePokemonImageUrl(using: pokemon.url)
             return VMPokemonInfo(name: pokemon.name, url: pokemon.url, imageUrl: pokemonImageUrlString)
         })

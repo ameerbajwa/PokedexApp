@@ -16,6 +16,7 @@ class PokemonDetailsView: UIView {
     var nameLabel = UILabel()
     var typeLabel = UILabel()
     var regionLabel = UILabel()
+    var habitatLabel = UILabel()
     var labelStackView = UIStackView()
     
     func setup() {
@@ -43,6 +44,7 @@ class PokemonDetailsView: UIView {
         nameLabel.font = UIFont.systemFont(ofSize: 12.0)
         typeLabel.font = UIFont.systemFont(ofSize: 12.0)
         regionLabel.font = UIFont.systemFont(ofSize: 12.0)
+        habitatLabel.font = UIFont.systemFont(ofSize: 12.0)
         
         labelStackView.axis = .vertical
         labelStackView.distribution = .fillEqually
@@ -52,6 +54,7 @@ class PokemonDetailsView: UIView {
         labelStackView.addArrangedSubview(nameLabel)
         labelStackView.addArrangedSubview(typeLabel)
         labelStackView.addArrangedSubview(regionLabel)
+        labelStackView.addArrangedSubview(habitatLabel)
         
         self.addSubview(labelStackView)
         labelStackView.translatesAutoresizingMaskIntoConstraints = false
@@ -75,7 +78,8 @@ class PokemonDetailsView: UIView {
         } else {
             typeLabel.text = "TYPE: \(masterPokemonDetails.pokemonDetails.types[0].type.name)"
         }
-        regionLabel.text = "REGION: \(masterPokemonDetails.pokemonSpeciesDetails.habitat.name)"
+        regionLabel.text = "REGION: \(masterPokemonDetails.pokedexConfiguration.region)"
+        habitatLabel.text = "HABITAT: \(masterPokemonDetails.pokemonSpeciesDetails.habitat.name)"
         Task {
             self.imageView.image = await self.viewModel?.generatePokemonImage()
         }

@@ -44,6 +44,8 @@ class LoadingView: UIView {
         safeLoaderMessageLabel.translatesAutoresizingMaskIntoConstraints = false
         
         safeLoader.topAnchor.constraint(equalTo: self.topAnchor, constant: 20.0).isActive = true
+        safeLoaderMessageLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 10.0).isActive = true
+        safeLoaderMessageLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -10.0).isActive = true
         safeLoaderMessageLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -10).isActive = true
     }
     
