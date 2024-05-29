@@ -33,8 +33,16 @@ class PokedexViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
+    @objc func back() {
+        self.coordinator?.goBackToPokedexGenerationList()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.navigationItem.hidesBackButton = true
+        let backButton = UIBarButtonItem(title: "Pokemon Generation", style: .plain, target: self, action: #selector(back))
+        self.navigationItem.leftBarButtonItem = backButton
         
         DispatchQueue.main.async {
             self.loadingView.displayLoadingView(with: "Loading Pokemon", on: self.view)
@@ -95,6 +103,7 @@ extension PokedexViewController: UITableViewDataSource {
 extension PokedexViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         print(self.pokemonListViewModel.pokemonList?.pokemon[indexPath.row].url ?? "No Url")
-        coordinator?.selectPokemon(configuration: self.pokemonListViewModel.configuration, at: (indexPath.row+1))
+        let pokemonId = pokemonListViewModel.calculatePokemonId(with: indexPath.row)
+        coordinator?.selectPokemon(configuration: self.pokemonListViewModel.configuration, with: pokemonId)
     }
 }

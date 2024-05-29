@@ -25,12 +25,15 @@ class PokemonDetailsCoordinator: Coordinator {
         self.viewModel = PokemonDetailsViewModel(networkService: networkService, configuration: configuration, pokemonId: pokemonId)
         self.detailsView = PokemonDetailsView()
         self.controller = PokemonDetailsViewController(viewModel: viewModel, detailsView: detailsView)
-        print("PokemonDetailsViewController and associated services/views have been initialized")
     }
     
     func start() {
         controller.coordinator = self
         navigationController.pushViewController(controller, animated: false)
-        print("push PokemonDetailsViewController to the forefront")
+    }
+    
+    func goBackToPokemonList() {
+        navigationController.popViewController(animated: false)
+        parentCoordinator?.removeCoordinator()
     }
 }

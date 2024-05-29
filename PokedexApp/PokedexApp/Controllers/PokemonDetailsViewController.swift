@@ -32,8 +32,17 @@ class PokemonDetailsViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
+    @objc func back(sender: UIBarButtonItem) {
+        self.coordinator?.goBackToPokemonList()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.navigationItem.hidesBackButton = true
+        let backButton = UIBarButtonItem(title: "Pokemon List", style: .plain, target: self, action: #selector(back))
+        self.navigationItem.leftBarButtonItem = backButton
+        
         DispatchQueue.main.async {
             self.loadingView.displayLoadingView(with: "Loading Pokemon Details", on: self.view)
             self.pokemonDetailsViewModel.retrievePokemonDetails { result in

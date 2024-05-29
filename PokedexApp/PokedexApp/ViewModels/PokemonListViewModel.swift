@@ -63,3 +63,9 @@ extension PokemonListViewModel {
         }
     }
 }
+
+extension PokemonListViewModel {
+    func calculatePokemonId(with row: Int) -> Int {
+        return (configuration.startingPokemonId + row)
+    }
+}
