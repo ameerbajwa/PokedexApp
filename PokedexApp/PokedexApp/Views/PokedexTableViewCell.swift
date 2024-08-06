@@ -80,11 +80,6 @@ class PokedexTableViewCell: UITableViewCell {
 extension PokedexTableViewCell {
     func setValues(for row: Int) {
         self.pokemonNameLabel.text = self.pokemonListViewModel?.pokemonList?.pokemon[row].name
-        guard let pokemonImageUrl = self.pokemonListViewModel?.pokemonList?.pokemon[row].imageUrl else {
-            return
-        }
-        Task {
-            self.pokemonImageView.image = await self.pokemonListViewModel?.generatePokemonImage(using: pokemonImageUrl)
-        }
+        self.pokemonImageView.image = self.pokemonListViewModel?.pokemonList?.pokemon[row].image
     }
 }

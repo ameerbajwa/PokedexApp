@@ -58,8 +58,8 @@ class LoadingView: UIView {
         NSLayoutConstraint.activate([
             self.centerXAnchor.constraint(equalTo: superView.centerXAnchor),
             self.centerYAnchor.constraint(equalTo: superView.centerYAnchor),
-            self.widthAnchor.constraint(equalToConstant: 80.0),
-            self.heightAnchor.constraint(equalToConstant: 80.0)
+            self.widthAnchor.constraint(equalToConstant: 150.0),
+            self.heightAnchor.constraint(equalToConstant: 100.0)
         ])
     }
     

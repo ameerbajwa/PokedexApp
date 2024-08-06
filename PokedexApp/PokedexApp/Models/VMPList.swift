@@ -20,10 +20,12 @@ class VMPokemonInfo {
     var name: String
     var url: String
     var imageUrl: String
+    var image: UIImage?
     
-    init(name: String, url: String, imageUrl: String) {
+    init(name: String, url: String, imageUrl: String, image: UIImage? = nil) {
         self.name = name
         self.url = url
         self.imageUrl = imageUrl
+        self.image = image
     }
 }

@@ -46,14 +46,13 @@ class PokedexViewController: UIViewController {
         
         DispatchQueue.main.async {
             self.loadingView.displayLoadingView(with: "Loading Pokemon", on: self.view)
-            self.setupPokedexTable()
         }
         
         pokemonListViewModel.retrievePokemonList { result in
             switch result {
             case .success:
-                DispatchQueue.main.async {
-                    self.pokedexTableView.reloadData()
+                DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+                    self.setupPokedexTable()
                     self.loadingView.dismissLoadingView()
                 }
             case .failure:
@@ -102,7 +101,6 @@ extension PokedexViewController: UITableViewDataSource {
 
 extension PokedexViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print(self.pokemonListViewModel.pokemonList?.pokemon[indexPath.row].url ?? "No Url")
         let pokemonId = pokemonListViewModel.calculatePokemonId(with: indexPath.row)
         coordinator?.selectPokemon(configuration: self.pokemonListViewModel.configuration, with: pokemonId)
     }

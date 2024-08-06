@@ -25,6 +25,7 @@ class PokemonListViewModel {
             switch result {
             case .success(let response):
                 self.createVMPokemonList(with: response)
+                self.generatePokemonImagesOnList()
                 completionHandler(.success)
             case .failure(let error):
                 self.pokemonListError = error
@@ -53,13 +54,26 @@ extension PokemonListViewModel {
         do {
             let imageData = try await networkService.retrievePokemonImageData(using: pokemonUrl)
             guard let safeImageData = imageData, let pokemonImage = UIImage(data: safeImageData) else {
-                print("could not obtain image data")
+                print("could not unwrap and load image data")
                 return nil
             }
             return pokemonImage
         } catch {
             print(error)
             return nil
+        }
+    }
+}
+
+extension PokemonListViewModel {
+    func generatePokemonImagesOnList() {
+        guard let pokemon = pokemonList?.pokemon else {
+            return
+        }
+        for pokemonInfo in pokemon {
+            Task {
+                pokemonInfo.image = await generatePokemonImage(using: pokemonInfo.imageUrl)
+            }
         }
     }
 }

@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 
 struct NetworkService {
     
@@ -50,10 +51,12 @@ struct NetworkService {
         let pokemonImageUrl = URL(string: pokemonImageUrlString)
         guard let safePokemonImageUrl = pokemonImageUrl else {
             throw URLError(.badServerResponse, userInfo: [:])
+//            return nil
         }
         
         let (imageData, _) = try await session.data(from: safePokemonImageUrl)
         return imageData
+//        return try? Data(contentsOf: safePokemonImageUrl)
     }
 }
 
