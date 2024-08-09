@@ -17,11 +17,11 @@ class PokemonDetailsView: UIView {
     var typeLabel = UILabel()
     var regionLabel = UILabel()
     var habitatLabel = UILabel()
-    var labelStackView = UIStackView()
+    var infoLabelStackView = UIStackView()
     
     func setup() {
         setupImageView()
-        setupLabels()
+        setupInfoLabels()
     }
     
     func setupImageView() {
@@ -39,31 +39,31 @@ class PokemonDetailsView: UIView {
         ])
     }
     
-    func setupLabels() {
-        idLabel.font = UIFont.systemFont(ofSize: 12.0)
-        nameLabel.font = UIFont.systemFont(ofSize: 12.0)
-        typeLabel.font = UIFont.systemFont(ofSize: 12.0)
-        regionLabel.font = UIFont.systemFont(ofSize: 12.0)
-        habitatLabel.font = UIFont.systemFont(ofSize: 12.0)
+    func setupInfoLabels() {
+        idLabel.font = UIFont.systemFont(ofSize: 14.0)
+        nameLabel.font = UIFont.systemFont(ofSize: 14.0)
+        typeLabel.font = UIFont.systemFont(ofSize: 14.0)
+        regionLabel.font = UIFont.systemFont(ofSize: 14.0)
+        habitatLabel.font = UIFont.systemFont(ofSize: 14.0)
         
-        labelStackView.axis = .vertical
-        labelStackView.distribution = .fillEqually
-        labelStackView.alignment = .leading
+        infoLabelStackView.axis = .vertical
+        infoLabelStackView.distribution = .fillEqually
+        infoLabelStackView.alignment = .leading
         
-        labelStackView.addArrangedSubview(idLabel)
-        labelStackView.addArrangedSubview(nameLabel)
-        labelStackView.addArrangedSubview(typeLabel)
-        labelStackView.addArrangedSubview(regionLabel)
-        labelStackView.addArrangedSubview(habitatLabel)
+        infoLabelStackView.addArrangedSubview(idLabel)
+        infoLabelStackView.addArrangedSubview(nameLabel)
+        infoLabelStackView.addArrangedSubview(typeLabel)
+        infoLabelStackView.addArrangedSubview(regionLabel)
+        infoLabelStackView.addArrangedSubview(habitatLabel)
         
-        self.addSubview(labelStackView)
-        labelStackView.translatesAutoresizingMaskIntoConstraints = false
+        self.addSubview(infoLabelStackView)
+        infoLabelStackView.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            labelStackView.topAnchor.constraint(equalTo: self.topAnchor, constant: 10.0),
-            labelStackView.leadingAnchor.constraint(equalTo: imageView.trailingAnchor, constant: 10.0),
-            labelStackView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -10.0),
-            labelStackView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -10.0)
+            infoLabelStackView.topAnchor.constraint(equalTo: self.topAnchor, constant: 10.0),
+            infoLabelStackView.leadingAnchor.constraint(equalTo: imageView.trailingAnchor, constant: 10.0),
+            infoLabelStackView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -10.0),
+            infoLabelStackView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -10.0)
         ])
     }
     
@@ -72,14 +72,14 @@ class PokemonDetailsView: UIView {
             return
         }
         idLabel.text = "ID: \(masterPokemonDetails.pokemonDetails.id)"
-        nameLabel.text = "NAME: \(masterPokemonDetails.pokemonDetails.name)"
+        nameLabel.text = "NAME: \(masterPokemonDetails.pokemonDetails.name.capitalized)"
         if masterPokemonDetails.pokemonDetails.types.count > 1 {
-            typeLabel.text = "TYPE: \(masterPokemonDetails.pokemonDetails.types[0].type.name) \(masterPokemonDetails.pokemonDetails.types[1].type.name)"
+            typeLabel.text = "TYPE: \(masterPokemonDetails.pokemonDetails.types[0].type.name.capitalized) \(masterPokemonDetails.pokemonDetails.types[1].type.name.capitalized)"
         } else {
-            typeLabel.text = "TYPE: \(masterPokemonDetails.pokemonDetails.types[0].type.name)"
+            typeLabel.text = "TYPE: \(masterPokemonDetails.pokemonDetails.types[0].type.name.capitalized)"
         }
-        regionLabel.text = "REGION: \(masterPokemonDetails.pokedexConfiguration.region)"
-        habitatLabel.text = "HABITAT: \(masterPokemonDetails.pokemonSpeciesDetails.habitat?.name ?? "UNKNOWN")"
+        regionLabel.text = "REGION: \(masterPokemonDetails.pokedexConfiguration.region.capitalized)"
+        habitatLabel.text = "HABITAT: \(masterPokemonDetails.pokemonSpeciesDetails.habitat?.name.capitalized ?? "UNKNOWN")"
         Task {
             self.imageView.image = await self.viewModel?.generatePokemonImage()
         }
