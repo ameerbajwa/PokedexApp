@@ -27,6 +27,12 @@ class MainCoordinator {
         self.networkService = NetworkService(urlSession: session, jsonDecoder: decoder)
     }
     
+    func createPokedexTitleCoordinator() {
+        let pokedexTitleCoordinator = PokedexTitleCoordinator(navigationController: navigationController, parentCoordinator: self, networkService: networkService)
+        childCoordinators.append(pokedexTitleCoordinator)
+        pokedexTitleCoordinator.start()
+    }
+    
     func createPokedexGenerationCoordinator() {
         let pokedexGenerationCoordinator = PokedexGenerationCoordinator(navigationController: navigationController, parentCoordinator: self)
         childCoordinators.append(pokedexGenerationCoordinator)

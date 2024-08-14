@@ -24,7 +24,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let mainNavigationController = UINavigationController.init()
         
         mainCoordinator = MainCoordinator(navigationController: mainNavigationController)
-        mainCoordinator.createPokedexGenerationCoordinator()
+        mainCoordinator.createPokedexTitleCoordinator()
         
         window.rootViewController = mainNavigationController
         window.makeKeyAndVisible()
