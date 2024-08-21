@@ -7,6 +7,7 @@
 
 import Foundation
 import UIKit
+import Combine
 
 class PokedexTitleViewController: UIViewController {
     weak var coordinator: PokedexTitleCoordinator?
@@ -15,12 +16,14 @@ class PokedexTitleViewController: UIViewController {
     
     var loadingView: LoadingView!
     var safeArea: UILayoutGuide!
+    private var cancellables: Set<AnyCancellable> = .init()
     
     init(viewModel: PokedexTitleViewModel, pokedexSelectionView: PokedexTitleView) {
         self.viewModel = viewModel
         self.pokedexSelectionView = pokedexSelectionView
         super.init(nibName: nil, bundle: nil)
         
+        self.viewModel.controller = self
         loadingView = LoadingView()
         self.view.backgroundColor = .white
         self.safeArea = self.view.layoutMarginsGuide
@@ -34,18 +37,18 @@ class PokedexTitleViewController: UIViewController {
         super.viewDidLoad()
         DispatchQueue.main.async {
             self.loadingView.displayLoadingView(with: "Loading Pokedex", on: self.view)
-        }
-        self.viewModel.retrievePokemonSelectors { result in
-            switch result {
-            case .success:
-                DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+            self.viewModel.retrievePokemonSelectors { result in
+                switch result {
+                case .success:
                     self.pokedexSelectionView.viewModel = self.viewModel
                     self.setupPokedexTitleView()
+                case .failure:
+                    self.loadingView.dismissLoadingView()
+                    print("pokedexTitleViewController viewDidLoad retrievePokemonSelectors called error")
                 }
-            case .failure:
-                print("error")
             }
         }
+        
     }
     
     func setupPokedexTitleView() {
@@ -61,7 +64,24 @@ class PokedexTitleViewController: UIViewController {
             pokedexSelectionView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor)
         ])
         
+        self.subscribePokedexVersionButtonToViewModel()
+        
         self.loadingView.dismissLoadingView()
+    }
+}
+
+// MARK: - Update Pokedex Version Selection on View
+extension PokedexTitleViewController {
+    func subscribePokedexVersionButtonToViewModel() {
+        viewModel.$pokemonVersionNames.sink { [unowned self] pokemonVersionNames in
+            if let safePokemonVersionNames = pokemonVersionNames {
+                DispatchQueue.main.async {
+                    self.pokedexSelectionView.pokedexVersionButton.menu = UIMenu(options: .displayInline, children: safePokemonVersionNames)
+                }
+                
+            }
+        }
+        .store(in: &cancellables)
     }
 }
 

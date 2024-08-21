@@ -12,14 +12,15 @@ import Combine
 class PokedexTitleView: UIView {
     weak var viewModel: PokedexTitleViewModel?
     weak var controller: PokedexTitleViewController?
-    private var cancellables: Set<AnyCancellable> = .init()
     
     var titleLabel: UILabel!
     var descriptionLabel: UILabel!
     var pokedexGenerationLabel: UILabel!
     var pokedexGenerationButton: UIButton!
+    var pokedexGenerationStackView: UIStackView!
     var pokedexVersionLabel: UILabel!
     var pokedexVersionButton: UIButton!
+    var pokedexVersionStackView: UIStackView!
     var continueButton: UIButton!
     
     func setupViews() {
@@ -28,15 +29,14 @@ class PokedexTitleView: UIView {
         setupPokemonGenerationLabelButton()
         setupPokemonVersionLabelButton()
         setupContinueButton()
-        
-        subscribeToViewModel()
     }
     
     func setupTitleLabel() {
         titleLabel = UILabel()
-        titleLabel.font = UIFont.boldSystemFont(ofSize: 28.0)
+        titleLabel.font = UIFont.boldSystemFont(ofSize: 26.0)
         titleLabel.textAlignment = .center
         titleLabel.text = "Welcome to the Pokedex App"
+        titleLabel.numberOfLines = 0
         
         self.addSubview(titleLabel)
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -59,7 +59,7 @@ class PokedexTitleView: UIView {
         descriptionLabel.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            descriptionLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 15.0),
+            descriptionLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 35.0),
             descriptionLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 10.0),
             descriptionLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -10.0)
         ])
@@ -73,23 +73,25 @@ class PokedexTitleView: UIView {
         
         pokedexGenerationButton = UIButton(primaryAction: nil)
         guard let pokemonGenerationNames = viewModel?.pokemonGenerationNames else { return }
-        pokedexGenerationButton.menu = UIMenu(options: .singleSelection, children: pokemonGenerationNames)
+        pokedexGenerationButton.menu = UIMenu(options: .displayInline, children: pokemonGenerationNames)
         pokedexGenerationButton.showsMenuAsPrimaryAction = true
         pokedexGenerationButton.changesSelectionAsPrimaryAction = true
         
-        self.addSubview(pokedexGenerationLabel)
-        self.addSubview(pokedexGenerationButton)
-        pokedexGenerationLabel.translatesAutoresizingMaskIntoConstraints = false
-        pokedexGenerationButton.translatesAutoresizingMaskIntoConstraints = false
+        pokedexGenerationStackView = UIStackView()
+        pokedexGenerationStackView.axis = .horizontal
+        pokedexGenerationStackView.spacing = 20.0
+        pokedexGenerationStackView.distribution = .fillEqually
+        
+        pokedexGenerationStackView.addArrangedSubview(pokedexGenerationLabel)
+        pokedexGenerationStackView.addArrangedSubview(pokedexGenerationButton)
+        
+        self.addSubview(pokedexGenerationStackView)
+        pokedexGenerationStackView.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            pokedexGenerationLabel.topAnchor.constraint(equalTo: self.descriptionLabel.bottomAnchor, constant: 35.0),
-            pokedexGenerationButton.topAnchor.constraint(equalTo: self.descriptionLabel.bottomAnchor, constant: 35.0),
-            pokedexGenerationLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 20.0),
-            pokedexGenerationButton.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -50.0),
-            pokedexGenerationLabel.trailingAnchor.constraint(equalTo: self.pokedexGenerationButton.leadingAnchor, constant: 10.0),
-            pokedexGenerationLabel.heightAnchor.constraint(equalToConstant: 20.0),
-            pokedexGenerationButton.heightAnchor.constraint(equalToConstant: 20.0)
+            pokedexGenerationStackView.topAnchor.constraint(equalTo: descriptionLabel.bottomAnchor, constant: 50.0),
+            pokedexGenerationStackView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 25.0),
+            pokedexGenerationStackView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -25.0)
         ])
     }
     
@@ -101,31 +103,33 @@ class PokedexTitleView: UIView {
         
         pokedexVersionButton = UIButton(primaryAction: nil)
         guard let pokemonVersionNames = viewModel?.pokemonVersionNames else { return }
-        pokedexVersionButton.menu = UIMenu(options: .singleSelection, children: pokemonVersionNames)
+        pokedexVersionButton.menu = UIMenu(options: .displayInline, children: pokemonVersionNames)
         pokedexVersionButton.showsMenuAsPrimaryAction = true
         pokedexVersionButton.changesSelectionAsPrimaryAction = true
         
-        self.addSubview(pokedexVersionLabel)
-        self.addSubview(pokedexVersionButton)
-        pokedexVersionLabel.translatesAutoresizingMaskIntoConstraints = false
-        pokedexVersionButton.translatesAutoresizingMaskIntoConstraints = false
+        pokedexVersionStackView = UIStackView()
+        pokedexVersionStackView.axis = .horizontal
+        pokedexVersionStackView.spacing = 20.0
+        pokedexVersionStackView.distribution = .fillEqually
+        
+        pokedexVersionStackView.addArrangedSubview(pokedexVersionLabel)
+        pokedexVersionStackView.addArrangedSubview(pokedexVersionButton)
+        
+        self.addSubview(pokedexVersionStackView)
+        pokedexVersionStackView.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            pokedexVersionLabel.topAnchor.constraint(equalTo: self.pokedexGenerationLabel.bottomAnchor, constant: 10.0),
-            pokedexVersionButton.topAnchor.constraint(equalTo: self.pokedexGenerationButton.bottomAnchor, constant: 10.0),
-            pokedexVersionLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 20.0),
-            pokedexVersionButton.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -50.0),
-            pokedexVersionLabel.trailingAnchor.constraint(equalTo: self.pokedexVersionButton.leadingAnchor, constant: 10.0),
-            pokedexVersionLabel.heightAnchor.constraint(equalToConstant: 20.0),
-            pokedexVersionButton.heightAnchor.constraint(equalToConstant: 20.0)
+            pokedexVersionStackView.topAnchor.constraint(equalTo: pokedexGenerationStackView.bottomAnchor, constant: 20.0),
+            pokedexVersionStackView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 25.0),
+            pokedexVersionStackView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -25.0)
         ])
     }
     
     func setupContinueButton() {
         continueButton = UIButton()
         continueButton.setTitle("Continue", for: .normal)
-        continueButton.tintColor = .systemMint
         continueButton.setTitleColor(.white, for: .focused)
+        continueButton.backgroundColor = .black
         continueButton.layer.cornerRadius = 15.0
         continueButton.layer.masksToBounds = true
         continueButton.addTarget(self, action: #selector(continueButtonTapped), for: .touchUpInside)
@@ -134,25 +138,15 @@ class PokedexTitleView: UIView {
         continueButton.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            continueButton.centerXAnchor.constraint(equalTo: self.centerXAnchor),
             continueButton.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -45.0),
-            continueButton.widthAnchor.constraint(equalToConstant: 75.0)
+            continueButton.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 30.0),
+            continueButton.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -30.0),
+            continueButton.heightAnchor.constraint(equalToConstant: 40.0)
         ])
     }
     
     @objc
     func continueButtonTapped() {
         controller?.coordinateToPokedexList()
-    }
-}
-
-extension PokedexTitleView {
-    func subscribeToViewModel() {
-        viewModel?.$pokemonVersionNames.sink(receiveValue: { pokemonVersionNames in
-            if let safePokemonVersionNames = pokemonVersionNames {
-                self.pokedexVersionButton.menu?.replacingChildren(safePokemonVersionNames)
-            }
-        })
-        .store(in: &cancellables)
     }
 }

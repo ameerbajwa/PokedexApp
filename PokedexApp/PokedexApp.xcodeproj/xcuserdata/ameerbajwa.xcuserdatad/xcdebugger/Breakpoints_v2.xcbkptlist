@@ -7,159 +7,64 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "798B021A-B3DB-48A7-9D82-E41EED0D0D98"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "PokedexApp/ViewModels/PokedexTitleViewModel.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "61"
-            endingLineNumber = "61"
-            landmarkName = "retrievePokemonGenerations()"
-            landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "798B021A-B3DB-48A7-9D82-E41EED0D0D98 - 81b73f9ab9547852"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #2 (Swift.Result&lt;PokedexApp.PGeneration, Swift.Error&gt;) -&gt; () in PokedexApp.PokedexTitleViewModel.retrievePokemonGenerations() -&gt; ()"
-                  moduleName = "PokedexApp"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/ameerbajwa/Personal/PokedexApp/PokedexApp/PokedexApp/ViewModels/PokedexTitleViewModel.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "60"
-                  endingLineNumber = "60"
-                  offsetFromSymbolStart = "912">
-               </Location>
-               <Location
-                  uuid = "798B021A-B3DB-48A7-9D82-E41EED0D0D98 - 81b73f9ab95479b3"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #2 (Swift.Result&lt;PokedexApp.PGeneration, Swift.Error&gt;) -&gt; () in PokedexApp.PokedexTitleViewModel.retrievePokemonGenerations() -&gt; ()"
-                  moduleName = "PokedexApp"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/ameerbajwa/Personal/PokedexApp/PokedexApp/PokedexApp/ViewModels/PokedexTitleViewModel.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "61"
-                  endingLineNumber = "61"
-                  offsetFromSymbolStart = "912">
-               </Location>
-               <Location
-                  uuid = "798B021A-B3DB-48A7-9D82-E41EED0D0D98 - 81b73f9ab9547994"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #2 (Swift.Result&lt;PokedexApp.PGeneration, Swift.Error&gt;) -&gt; () in PokedexApp.PokedexTitleViewModel.retrievePokemonGenerations() -&gt; ()"
-                  moduleName = "PokedexApp"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/ameerbajwa/Personal/PokedexApp/PokedexApp/PokedexApp/ViewModels/PokedexTitleViewModel.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "62"
-                  endingLineNumber = "62"
-                  offsetFromSymbolStart = "912">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "83F57D8B-77F9-4290-857D-4A344A18C88A"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "PokedexApp/ViewModels/PokedexTitleViewModel.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "81"
-            endingLineNumber = "81"
-            landmarkName = "retrievePokemonVersions()"
-            landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "83F57D8B-77F9-4290-857D-4A344A18C88A - b7043773b8bbd89b"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 (Swift.Result&lt;PokedexApp.PVersion, Swift.Error&gt;) -&gt; () in PokedexApp.PokedexTitleViewModel.retrievePokemonVersions() -&gt; ()"
-                  moduleName = "PokedexApp"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/ameerbajwa/Personal/PokedexApp/PokedexApp/PokedexApp/ViewModels/PokedexTitleViewModel.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "77"
-                  endingLineNumber = "77"
-                  offsetFromSymbolStart = "1084">
-               </Location>
-               <Location
-                  uuid = "83F57D8B-77F9-4290-857D-4A344A18C88A - b7043773b8bbd8fe"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 (Swift.Result&lt;PokedexApp.PVersion, Swift.Error&gt;) -&gt; () in PokedexApp.PokedexTitleViewModel.retrievePokemonVersions() -&gt; ()"
-                  moduleName = "PokedexApp"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/ameerbajwa/Personal/PokedexApp/PokedexApp/PokedexApp/ViewModels/PokedexTitleViewModel.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "80"
-                  endingLineNumber = "80"
-                  offsetFromSymbolStart = "1084">
-               </Location>
-               <Location
-                  uuid = "83F57D8B-77F9-4290-857D-4A344A18C88A - b7043773b8bbd861"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 (Swift.Result&lt;PokedexApp.PVersion, Swift.Error&gt;) -&gt; () in PokedexApp.PokedexTitleViewModel.retrievePokemonVersions() -&gt; ()"
-                  moduleName = "PokedexApp"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/ameerbajwa/Personal/PokedexApp/PokedexApp/PokedexApp/ViewModels/PokedexTitleViewModel.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "83"
-                  endingLineNumber = "83"
-                  offsetFromSymbolStart = "1084">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "3BEE9C3A-EC46-470B-A3A8-8C30A94D96F3"
-            shouldBeEnabled = "Yes"
+            uuid = "06F27520-FE27-4A7C-919A-5F81B08272A7"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "PokedexApp/Controllers/PokedexTitleViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "46"
-            endingLineNumber = "46"
-            landmarkName = "viewDidLoad()"
+            startingLineNumber = "79"
+            endingLineNumber = "79"
+            landmarkName = "subscribePokedexVersionButtonToViewModel()"
             landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "4F9706F8-5FA0-4C11-8F84-D34B13D3B344"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "PokedexApp/ViewModels/PokedexTitleViewModel.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "39"
-            endingLineNumber = "39"
-            landmarkName = "retrievePokemonSelectors(completionHandler:)"
-            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "06F27520-FE27-4A7C-919A-5F81B08272A7 - f90fd8cae61fe838"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Swift.Optional&lt;Swift.Array&lt;__C.UIMenuElement&gt;&gt;) -&gt; () in PokedexApp.PokedexTitleViewController.subscribePokedexVersionButtonToViewModel() -&gt; ()"
+                  moduleName = "PokedexApp"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/ameerbajwa/Personal/PokedexApp/PokedexApp/PokedexApp/Controllers/PokedexTitleViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "80"
+                  endingLineNumber = "80"
+                  offsetFromSymbolStart = "604">
+               </Location>
+               <Location
+                  uuid = "06F27520-FE27-4A7C-919A-5F81B08272A7 - 1e0737e91531bebf"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 @Swift.MainActor () -&gt; () in closure #1 (Swift.Optional&lt;Swift.Array&lt;__C.UIMenuElement&gt;&gt;) -&gt; () in PokedexApp.PokedexTitleViewController.subscribePokedexVersionButtonToViewModel() -&gt; ()"
+                  moduleName = "PokedexApp"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/ameerbajwa/Personal/PokedexApp/PokedexApp/PokedexApp/Controllers/PokedexTitleViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "80"
+                  endingLineNumber = "80"
+                  offsetFromSymbolStart = "528">
+               </Location>
+               <Location
+                  uuid = "06F27520-FE27-4A7C-919A-5F81B08272A7 - 1e0737e91531be9c"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 @Swift.MainActor () -&gt; () in closure #1 (Swift.Optional&lt;Swift.Array&lt;__C.UIMenuElement&gt;&gt;) -&gt; () in PokedexApp.PokedexTitleViewController.subscribePokedexVersionButtonToViewModel() -&gt; ()"
+                  moduleName = "PokedexApp"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/ameerbajwa/Personal/PokedexApp/PokedexApp/PokedexApp/Controllers/PokedexTitleViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "79"
+                  endingLineNumber = "79"
+                  offsetFromSymbolStart = "80">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

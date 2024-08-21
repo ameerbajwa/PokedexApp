@@ -11,6 +11,7 @@ import UIKit
 import Combine
 
 class PokedexTitleViewModel {
+    weak var controller: PokedexTitleViewController?
     var networkService: NetworkService
     let dispatchGroup: DispatchGroup
     
@@ -45,43 +46,71 @@ class PokedexTitleViewModel {
     }
     
     func retrievePokemonGenerations() {
+        dispatchGroup.enter()
+        
+        for genId in 1...8 {
+            networkService.callPokeAPI(with: .generation, by: genId, startingId: nil, endingId: nil) { (result: Result<PGeneration, Error>) in
+                switch result {
+                case .success(let response):
+                    self.handlePokemonGenerationResponse(generation: genId, response: response)
+                case .failure(let error):
+                    print("Calling PokeAPI by generation \(genId) error")
+                }
+                if genId == 8 {
+                    self.dispatchGroup.leave()
+                }
+            }
+        }
+    }
+    
+    func retrievePokemonVersions() {
+        dispatchGroup.enter()
+        for versionId in 1...20 {
+            networkService.callPokeAPI(with: .versionGroup, by: versionId, startingId: nil, endingId: nil) { (result: Result<PVersion, Error>) in
+                switch result {
+                case .success(let response):
+                    self.handlePokemonVersionGroupResponse(response: response)
+                case .failure(let error):
+                    print("Calling PokeAPI by version \(versionId) error")
+                }
+                if versionId == 20 {
+                    self.dispatchGroup.leave()
+                }
+            }
+        }
+    }
+    
+    func handlePokemonGenerationResponse(generation: Int, response: PGeneration) {
         let selectedPokemonGenerationAction = { (action: UIAction) in
             self.selectedPokemonGeneration = Int(action.title) ?? 1
             self.changePokemonVersionSelections()
         }
         
-        for genId in 1...8 {
-            dispatchGroup.enter()
-            networkService.callPokeAPI(with: .generation, by: genId, startingId: nil, endingId: nil) { (result: Result<PGeneration, Error>) in
-                switch result {
-                case .success(let response):
-                    self.pokemonGenerationNames?.append(UIAction(title: "\(response.id)", handler: selectedPokemonGenerationAction))
-                    self.pokemonGenerations?[genId] = response
-                case .failure(let error):
-                    print("error")
-                }
-            }
-            self.dispatchGroup.leave()
+        if self.pokemonGenerationNames != nil {
+            self.pokemonGenerationNames?.append(UIAction(title: "\(response.id)", handler: selectedPokemonGenerationAction))
+        } else {
+            self.pokemonGenerationNames = [UIAction(title: "\(response.id)", handler: selectedPokemonGenerationAction)]
         }
         
+        if self.pokemonGenerations != nil {
+            self.pokemonGenerations?[generation] = response
+        } else {
+            self.pokemonGenerations = [generation: response]
+        }
     }
     
-    func retrievePokemonVersions() {
-        for versionId in 1...20 {
-            dispatchGroup.enter()
-            networkService.callPokeAPI(with: .versionGroup, by: versionId, startingId: nil, endingId: nil) { (result: Result<PVersion, Error>) in
-                switch result {
-                case .success(let response):
-                    let pokemonGenerationUrlComponents = response.generation.url.components(separatedBy: "/")
-                    guard let generationId = Int(pokemonGenerationUrlComponents[pokemonGenerationUrlComponents.endIndex-2]) else { return }
-                    for version in response.versions {
-                        self.pokemonVersions?[generationId]?.append(version.name)
-                    }
-                case .failure(let error):
-                    print("error")
-                }
-            }
-            self.dispatchGroup.leave()
+    func handlePokemonVersionGroupResponse(response: PVersion) {
+        let pokemonGenerationUrlComponents = response.generation.url.components(separatedBy: "/")
+        guard let generationId = Int(pokemonGenerationUrlComponents[pokemonGenerationUrlComponents.endIndex-2]) else {
+            return
+        }
+        if self.pokemonVersions == nil {
+            self.pokemonVersions = [generationId: []]
+        } else if self.pokemonVersions?[generationId] == nil {
+            self.pokemonVersions?[generationId] = []
+        }
+        for version in response.versions {
+            self.pokemonVersions?[generationId]?.append(version.name)
         }
     }
     
@@ -90,9 +119,13 @@ class PokedexTitleViewModel {
             self.selectedPokemonVersion = action.title
         }
         
-        guard let safePokemonVersionNames = self.pokemonVersions?[self.selectedPokemonGeneration] else {  return }
-        for pokemonVersionName in safePokemonVersionNames {
-            self.pokemonVersionNames?.append(UIAction(title: pokemonVersionName, handler: selectedPokemonVersionAction))
+        guard let safePokemonVersionNames = self.pokemonVersions?[self.selectedPokemonGeneration] else {
+            return
         }
+        var pokemonVersionSelections: [UIMenuElement] = []
+        for pokemonVersionName in safePokemonVersionNames {
+            pokemonVersionSelections.append(UIAction(title: pokemonVersionName, handler: selectedPokemonVersionAction))
+        }
+        self.pokemonVersionNames = pokemonVersionSelections
     }
 }
