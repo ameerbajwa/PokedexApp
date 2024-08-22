@@ -12,6 +12,7 @@ import Combine
 class PokedexTitleView: UIView {
     weak var viewModel: PokedexTitleViewModel?
     weak var controller: PokedexTitleViewController?
+    private var cancellables: Set<AnyCancellable> = .init()
     
     var titleLabel: UILabel!
     var descriptionLabel: UILabel!
@@ -29,6 +30,8 @@ class PokedexTitleView: UIView {
         setupPokemonGenerationLabelButton()
         setupPokemonVersionLabelButton()
         setupContinueButton()
+        
+        subscribeToPokedexVersionSelection()
     }
     
     func setupTitleLabel() {
@@ -148,5 +151,19 @@ class PokedexTitleView: UIView {
     @objc
     func continueButtonTapped() {
         controller?.coordinateToPokedexList()
+    }
+}
+
+extension PokedexTitleView {
+    func subscribeToPokedexVersionSelection() {
+        viewModel?.$pokemonVersionNames.sink { [unowned self] pokemonVersionNames in
+            if let safePokemonVersionNames = pokemonVersionNames {
+                DispatchQueue.main.async {
+                    self.pokedexVersionButton.menu = UIMenu(options: .displayInline, children: safePokemonVersionNames)
+                }
+                
+            }
+        }
+        .store(in: &cancellables)
     }
 }

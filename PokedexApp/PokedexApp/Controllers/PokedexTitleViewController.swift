@@ -16,14 +16,13 @@ class PokedexTitleViewController: UIViewController {
     
     var loadingView: LoadingView!
     var safeArea: UILayoutGuide!
-    private var cancellables: Set<AnyCancellable> = .init()
+    
     
     init(viewModel: PokedexTitleViewModel, pokedexSelectionView: PokedexTitleView) {
         self.viewModel = viewModel
         self.pokedexSelectionView = pokedexSelectionView
         super.init(nibName: nil, bundle: nil)
         
-        self.viewModel.controller = self
         loadingView = LoadingView()
         self.view.backgroundColor = .white
         self.safeArea = self.view.layoutMarginsGuide
@@ -64,30 +63,14 @@ class PokedexTitleViewController: UIViewController {
             pokedexSelectionView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor)
         ])
         
-        self.subscribePokedexVersionButtonToViewModel()
-        
         self.loadingView.dismissLoadingView()
-    }
-}
-
-// MARK: - Update Pokedex Version Selection on View
-extension PokedexTitleViewController {
-    func subscribePokedexVersionButtonToViewModel() {
-        viewModel.$pokemonVersionNames.sink { [unowned self] pokemonVersionNames in
-            if let safePokemonVersionNames = pokemonVersionNames {
-                DispatchQueue.main.async {
-                    self.pokedexSelectionView.pokedexVersionButton.menu = UIMenu(options: .displayInline, children: safePokemonVersionNames)
-                }
-                
-            }
-        }
-        .store(in: &cancellables)
     }
 }
 
 // MARK: - Coorindate Logic
 extension PokedexTitleViewController {
     func coordinateToPokedexList() {
-//        coordinator?.selectPokedex(configuration: viewModel.configuration)
+        guard let configuration = viewModel.generatePokedexConfiguration() else { return }
+        coordinator?.selectPokedex(configuration: configuration)
     }
 }

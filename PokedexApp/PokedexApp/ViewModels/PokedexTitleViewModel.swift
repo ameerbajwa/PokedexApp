@@ -11,13 +11,11 @@ import UIKit
 import Combine
 
 class PokedexTitleViewModel {
-    weak var controller: PokedexTitleViewController?
     var networkService: NetworkService
     let dispatchGroup: DispatchGroup
     
     var pokemonGenerations: [Int: PGeneration]?
     var pokemonVersions: [Int: [String]]?
-    var pokedexConfiguration: PokedexConfiguration?
     
     var selectedPokemonGeneration: Int = 1
     var selectedPokemonVersion: String?
@@ -127,5 +125,35 @@ class PokedexTitleViewModel {
             pokemonVersionSelections.append(UIAction(title: pokemonVersionName, handler: selectedPokemonVersionAction))
         }
         self.pokemonVersionNames = pokemonVersionSelections
+    }
+}
+
+// MARK: - Generate Pokedex Configuration
+extension PokedexTitleViewModel {
+    func generatePokedexConfiguration() -> PokedexConfiguration? {
+        guard let pokemonGeneration = pokemonGenerations?[selectedPokemonGeneration], let pokemonVersion = selectedPokemonVersion else { return nil }
+
+        let pokemonGenerationPokemonIdList = pokemonGeneration.pokemonSpecies.map { pokemonSpecies in
+            let pokemonId = pokemonSpecies.url.components(separatedBy: "/")
+            guard let id = Int(pokemonId[pokemonId.endIndex-2]) else { return 0 }
+            return id
+        }
+        let pokemonIds = retrieveStartingEndingPokemonIdFromList(with: pokemonGenerationPokemonIdList)
+        return PokedexConfiguration(region: pokemonGeneration.mainRegion.name, selectedGeneration: String(pokemonGeneration.id), selectedVersion: pokemonVersion, startingPokemonId: pokemonIds.startingId, endingPokemonId: pokemonIds.endingId)
+    }
+    
+    func retrieveStartingEndingPokemonIdFromList(with pokemonIdList: [Int]) -> (startingId: Int, endingId: Int) {
+        var startingId: Int = pokemonIdList[0]
+        var endingId: Int = pokemonIdList[0]
+        for id in pokemonIdList {
+            if startingId > id {
+                startingId = id
+            }
+            if endingId < id {
+                endingId = id
+            }
+        }
+        
+        return (startingId, endingId)
     }
 }
