@@ -9,16 +9,16 @@ import Foundation
 
 struct PokedexConfiguration {
     var region: String
-    var versionGroups: [String]
-    var generation: String
+    var selectedGeneration: String
+    var selectedVersion: String
     var startingPokemonId: Int
     var endingPokemonId: Int
     var selectedPokemonId: Int?
     
-    init(region: String, versionGroups: [String], generation: String, startingPokemonId: Int, endingPokemonId: Int, selectedPokemonId: Int? = nil) {
+    init(region: String, selectedGeneration: String, selectedVersion: String, startingPokemonId: Int, endingPokemonId: Int, selectedPokemonId: Int? = nil) {
         self.region = region
-        self.versionGroups = versionGroups
-        self.generation = generation
+        self.selectedGeneration = selectedGeneration
+        self.selectedVersion = selectedVersion
         self.startingPokemonId = startingPokemonId
         self.endingPokemonId = endingPokemonId
         self.selectedPokemonId = selectedPokemonId
