@@ -63,7 +63,9 @@ extension NetworkService {
         let pokeAPIUrlString = Constants.baseURL + UrlVersion.v2.value + endpoint.value
         guard let safeId = id else {
             guard let startingId = startingId, let endingId = endingId else { return "" }
-            return pokeAPIUrlString + "limit=\(endingId)&offset=\(startingId-1)"
+            let offset = startingId - 1
+            let limit = (offset == 0) ? endingId : endingId - offset
+            return pokeAPIUrlString + "limit=\(limit)&offset=\(offset)"
         }
         return pokeAPIUrlString + "\(safeId)"
     }

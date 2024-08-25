@@ -79,6 +79,12 @@ class PokedexTitleView: UIView {
         pokedexGenerationButton.menu = UIMenu(options: .displayInline, children: pokemonGenerationNames)
         pokedexGenerationButton.showsMenuAsPrimaryAction = true
         pokedexGenerationButton.changesSelectionAsPrimaryAction = true
+        pokedexGenerationButton.backgroundColor = .white
+        pokedexGenerationButton.setTitleColor(.black, for: .normal)
+        pokedexGenerationButton.layer.borderWidth = 2.0
+        pokedexGenerationButton.layer.borderColor = UIColor.black.cgColor
+        pokedexGenerationButton.layer.cornerRadius = 10.0
+        pokedexGenerationButton.layer.masksToBounds = true
         
         pokedexGenerationStackView = UIStackView()
         pokedexGenerationStackView.axis = .horizontal
@@ -105,12 +111,16 @@ class PokedexTitleView: UIView {
         pokedexVersionLabel.text = "Pokemon Version:"
         
         pokedexVersionButton = UIButton(primaryAction: nil)
-        guard let pokemonVersionNames = viewModel?.pokemonVersionNames else {
-            return
-        }
+        guard let pokemonVersionNames = viewModel?.pokemonVersionNames else { return }
         pokedexVersionButton.menu = UIMenu(options: .displayInline, children: pokemonVersionNames)
         pokedexVersionButton.showsMenuAsPrimaryAction = true
         pokedexVersionButton.changesSelectionAsPrimaryAction = true
+        pokedexVersionButton.backgroundColor = .white
+        pokedexVersionButton.setTitleColor(.black, for: .normal)
+        pokedexVersionButton.layer.borderWidth = 2.0
+        pokedexVersionButton.layer.borderColor = UIColor.black.cgColor
+        pokedexVersionButton.layer.cornerRadius = 10.0
+        pokedexVersionButton.layer.masksToBounds = true
         
         pokedexVersionStackView = UIStackView()
         pokedexVersionStackView.axis = .horizontal
