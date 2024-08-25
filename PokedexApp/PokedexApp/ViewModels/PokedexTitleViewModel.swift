@@ -108,6 +108,9 @@ class PokedexTitleViewModel {
             self.pokemonVersions?[generationId] = []
         }
         for version in response.versions {
+            if selectedPokemonVersion == nil, self.pokemonVersions?.count == 1 {
+                selectedPokemonVersion = version.name
+            }
             self.pokemonVersions?[generationId]?.append(version.name)
         }
     }
@@ -131,7 +134,9 @@ class PokedexTitleViewModel {
 // MARK: - Generate Pokedex Configuration
 extension PokedexTitleViewModel {
     func generatePokedexConfiguration() -> PokedexConfiguration? {
-        guard let pokemonGeneration = pokemonGenerations?[selectedPokemonGeneration], let pokemonVersion = selectedPokemonVersion else { return nil }
+        guard let pokemonGeneration = pokemonGenerations?[selectedPokemonGeneration], let pokemonVersion = selectedPokemonVersion else {
+            return nil
+        }
 
         let pokemonGenerationPokemonIdList = pokemonGeneration.pokemonSpecies.map { pokemonSpecies in
             let pokemonId = pokemonSpecies.url.components(separatedBy: "/")

@@ -44,7 +44,7 @@ class PokemonGenerationViewModel {
             return id
         }
         let pokemonIds = retrieveStartingEndingPokemonIdFromList(with: pokemonGenerationPokemonIdList)
-        let pokedexConfiguration = PokedexConfiguration(region: pokemonGenerationResponse.mainRegion.name, versionGroups: pokedexConfigurationVersions, generation: String(pokemonGenerationResponse.id), startingPokemonId: pokemonIds.startingId, endingPokemonId: pokemonIds.endingId)
+        let pokedexConfiguration = PokedexConfiguration(region: pokemonGenerationResponse.mainRegion.name, selectedGeneration: "1", selectedVersion: "red", startingPokemonId: pokemonIds.startingId, endingPokemonId: pokemonIds.endingId)
         pokedexConfigurations[pokemonGenerationResponse.id] = pokedexConfiguration
     }
     

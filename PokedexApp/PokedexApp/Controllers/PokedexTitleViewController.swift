@@ -23,6 +23,7 @@ class PokedexTitleViewController: UIViewController {
         self.pokedexSelectionView = pokedexSelectionView
         super.init(nibName: nil, bundle: nil)
         
+        self.pokedexSelectionView.controller = self
         loadingView = LoadingView()
         self.view.backgroundColor = .white
         self.safeArea = self.view.layoutMarginsGuide
@@ -70,7 +71,11 @@ class PokedexTitleViewController: UIViewController {
 // MARK: - Coorindate Logic
 extension PokedexTitleViewController {
     func coordinateToPokedexList() {
-        guard let configuration = viewModel.generatePokedexConfiguration() else { return }
-        coordinator?.selectPokedex(configuration: configuration)
+        guard let configuration = viewModel.generatePokedexConfiguration() else {
+            return
+        }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            self.coordinator?.selectPokedex(configuration: configuration)
+        }
     }
 }
