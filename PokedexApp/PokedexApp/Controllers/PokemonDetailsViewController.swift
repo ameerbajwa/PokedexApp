@@ -45,32 +45,32 @@ class PokemonDetailsViewController: UIViewController {
         
         DispatchQueue.main.async {
             self.loadingView.displayLoadingView(with: "Loading Pokemon Details", on: self.view)
-            self.pokemonDetailsViewModel.retrievePokemonDetails { result in
-                switch result {
-                case .success:
-                    self.detailsView.viewModel = self.pokemonDetailsViewModel
-                    self.setupDetailsView()
-                case .failure:
-                    print("Error")
-                }
-            }
+        }
+        
+        Task {
+            await self.pokemonDetailsViewModel.retrievePokemonDetails()
+            self.detailsView.viewModel = self.pokemonDetailsViewModel
+            self.setupDetailsView()
         }
     }
     
     func setupDetailsView() {
-        self.detailsView.setup()
-        
-        self.view.addSubview(detailsView)
-        detailsView.translatesAutoresizingMaskIntoConstraints = false
-        
-        NSLayoutConstraint.activate([
-            detailsView.topAnchor.constraint(equalTo: safeArea.topAnchor),
-            detailsView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            detailsView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            detailsView.heightAnchor.constraint(equalToConstant: 170.0)
-        ])
-        
-        self.detailsView.setValues()
-        self.loadingView.dismissLoadingView()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+            self.detailsView.setup()
+            
+            self.view.addSubview(self.detailsView)
+            self.detailsView.translatesAutoresizingMaskIntoConstraints = false
+            
+            NSLayoutConstraint.activate([
+                self.detailsView.topAnchor.constraint(equalTo: self.safeArea.topAnchor),
+                self.detailsView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
+                self.detailsView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
+                self.detailsView.heightAnchor.constraint(equalToConstant: 170.0)
+            ])
+            
+            self.detailsView.setValues()
+            
+            self.loadingView.dismissLoadingView()
+        }
     }
 }

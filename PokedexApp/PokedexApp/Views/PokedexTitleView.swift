@@ -75,7 +75,9 @@ class PokedexTitleView: UIView {
         pokedexGenerationLabel.text = "Pokemon Generation:"
         
         pokedexGenerationButton = UIButton(primaryAction: nil)
-        guard let pokemonGenerationNames = viewModel?.pokemonGenerationNames else { return }
+        guard let pokemonGenerationNames = viewModel?.pokemonGenerationNames else {
+            return
+        }
         pokedexGenerationButton.menu = UIMenu(options: .displayInline, children: pokemonGenerationNames)
         pokedexGenerationButton.showsMenuAsPrimaryAction = true
         pokedexGenerationButton.changesSelectionAsPrimaryAction = true
@@ -111,7 +113,9 @@ class PokedexTitleView: UIView {
         pokedexVersionLabel.text = "Pokemon Version:"
         
         pokedexVersionButton = UIButton(primaryAction: nil)
-        guard let pokemonVersionNames = viewModel?.pokemonVersionNames else { return }
+        guard let pokemonVersionNames = viewModel?.pokemonVersionNames else {
+            return
+        }
         pokedexVersionButton.menu = UIMenu(options: .displayInline, children: pokemonVersionNames)
         pokedexVersionButton.showsMenuAsPrimaryAction = true
         pokedexVersionButton.changesSelectionAsPrimaryAction = true

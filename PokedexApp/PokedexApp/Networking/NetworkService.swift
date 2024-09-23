@@ -22,29 +22,29 @@ struct NetworkService {
                                  by id: Int?,
                                  startingId: Int?,
                                  endingId: Int?,
-                                 completionHandler: @escaping (Result<T, Error>) -> Void) {
+                                 responseModel: T.Type) async throws -> T {
         let pokeAPIUrlString = generatePokeAPIUrl(with: endpoint, by: id, startingId: startingId, endingId: endingId)
         let pokeAPIUrl = URL(string: pokeAPIUrlString)
         guard let safePokeAPIUrl = pokeAPIUrl else {
-            return
+            throw PokemonError.noPokeAPIUrl
         }
         var pokeAPIUrlRequest = URLRequest(url: safePokeAPIUrl)
         pokeAPIUrlRequest.httpMethod = HttpMethod.GET.rawValue
         
-        session.dataTask(with: pokeAPIUrlRequest) { (pokeAPIData, pokeAPIUrlResponse, pokeAPIError) in
-            guard let safePokeAPIData = pokeAPIData, pokeAPIError == nil else {
-                completionHandler(.failure(pokeAPIError!))
-                return
-            }
-            
-            do {
-                let responseModel = try decoder.decode(T.self, from: safePokeAPIData)
-                completionHandler(.success(responseModel))
-            } catch {
-                print("error: \(error)")
-            }
-        }.resume()
+        var data: Data
         
+        do {
+            (data, _) = try await session.data(for: pokeAPIUrlRequest)
+        } catch {
+            throw PokemonError.pokeAPIResponseError(error: error)
+        }
+        
+        do {
+            let responseModel = try decoder.decode(T.self, from: data)
+            return responseModel
+        } catch {
+            throw PokemonError.decodingError
+        }
     }
     
     func retrievePokemonImageData(using pokemonImageUrlString: String) async throws -> Data? {

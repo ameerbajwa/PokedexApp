@@ -12,7 +12,6 @@ import Combine
 
 class PokedexTitleViewModel {
     var networkService: NetworkService
-    let dispatchGroup: DispatchGroup
     
     var pokemonGenerations: [Int: PGeneration]?
     var pokemonVersions: [Int: [String]]?
@@ -24,58 +23,52 @@ class PokedexTitleViewModel {
     
     init(networkService: NetworkService) {
         self.networkService = networkService
-        
-        self.dispatchGroup = DispatchGroup()
     }
     
-    func retrievePokemonSelectors(completionHandler: @escaping (CompletionHandlerResponse) -> Void) {
-        retrievePokemonGenerations()
-        retrievePokemonVersions()
-        
-        dispatchGroup.notify(queue: .main) { [weak self] in
-            guard let safePokemonGenerations = self?.pokemonGenerations,
-                  let safePokemonVersions = self?.pokemonVersions else {
-                completionHandler(.failure)
-                return
+    func retrievePokemonSelectors() async {
+        await withTaskGroup(of: Bool.self, returning: Void.self) { taskGroup in
+            taskGroup.addTask {
+                return await self.retrievePokemonGenerations()
             }
-            self?.changePokemonVersionSelections()
-            completionHandler(.success)
+            taskGroup.addTask {
+                return await self.retrievePokemonVersions()
+            }
+            
+            var results = [Bool]()
+            for await result in taskGroup {
+                results.append(result)
+            }
+            
+            if results[0] && results[1] {
+                self.changePokemonVersionSelections()
+            }
         }
     }
     
-    func retrievePokemonGenerations() {
-        dispatchGroup.enter()
-        
+    func retrievePokemonGenerations() async -> Bool {
         for genId in 1...8 {
-            networkService.callPokeAPI(with: .generation, by: genId, startingId: nil, endingId: nil) { (result: Result<PGeneration, Error>) in
-                switch result {
-                case .success(let response):
-                    self.handlePokemonGenerationResponse(generation: genId, response: response)
-                case .failure(let error):
-                    print("Calling PokeAPI by generation \(genId) error")
-                }
-                if genId == 8 {
-                    self.dispatchGroup.leave()
-                }
+            do {
+                let response = try await networkService.callPokeAPI(with: .generation, by: genId, startingId: nil, endingId: nil, responseModel: PGeneration.self)
+                self.handlePokemonGenerationResponse(generation: genId, response: response)
+            } catch {
+                print("Calling PokeAPI by generation \(genId) error")
             }
         }
+        
+        return (self.pokemonGenerations?.count == 8) ? true : false
     }
     
-    func retrievePokemonVersions() {
-        dispatchGroup.enter()
+    func retrievePokemonVersions() async -> Bool {
         for versionId in 1...20 {
-            networkService.callPokeAPI(with: .versionGroup, by: versionId, startingId: nil, endingId: nil) { (result: Result<PVersion, Error>) in
-                switch result {
-                case .success(let response):
-                    self.handlePokemonVersionGroupResponse(response: response)
-                case .failure(let error):
-                    print("Calling PokeAPI by version \(versionId) error")
-                }
-                if versionId == 20 {
-                    self.dispatchGroup.leave()
-                }
+            do {
+                let response = try await networkService.callPokeAPI(with: .versionGroup, by: versionId, startingId: nil, endingId: nil, responseModel: PVersion.self)
+                self.handlePokemonVersionGroupResponse(response: response)
+            } catch {
+                print("Calling PokeAPI by version \(versionId) error")
             }
         }
+        
+        return (self.pokemonVersions?.count == 8) ? true : false
     }
     
     func handlePokemonGenerationResponse(generation: Int, response: PGeneration) {
