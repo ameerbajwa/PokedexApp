@@ -12,7 +12,6 @@ import Combine
 
 class PokedexTitleViewModel {
     var networkService: NetworkService
-    let dispatchGroup: DispatchGroup
     
     var pokemonGenerations: [Int: PGeneration]?
     var pokemonVersions: [Int: [String]]?
@@ -24,56 +23,35 @@ class PokedexTitleViewModel {
     
     init(networkService: NetworkService) {
         self.networkService = networkService
-        
-        self.dispatchGroup = DispatchGroup()
     }
     
-    func retrievePokemonSelectors(completionHandler: @escaping (CompletionHandlerResponse) -> Void) {
-        retrievePokemonGenerations()
-        retrievePokemonVersions()
-        
-        dispatchGroup.notify(queue: .main) { [weak self] in
-            guard let safePokemonGenerations = self?.pokemonGenerations,
-                  let safePokemonVersions = self?.pokemonVersions else {
-                completionHandler(.failure)
-                return
+    func generatePokemonGenerationSelectors() async throws {
+        try await withThrowingTaskGroup(of: (Int, PGeneration?).self) { taskGroup in
+            for genId in 1...PokedexConstants.generations.count {
+                taskGroup.addTask { [weak self] in
+                    let response = try await self?.networkService.callPokeAPI(with: .generation, by: genId, startingId: nil, endingId: nil, responseModel: PGeneration.self)
+                    return (genId, response)
+                }
             }
-            self?.changePokemonVersionSelections()
-            completionHandler(.success)
-        }
-    }
-    
-    func retrievePokemonGenerations() {
-        dispatchGroup.enter()
-        
-        for genId in 1...8 {
-            networkService.callPokeAPI(with: .generation, by: genId, startingId: nil, endingId: nil) { (result: Result<PGeneration, Error>) in
-                switch result {
-                case .success(let response):
-                    self.handlePokemonGenerationResponse(generation: genId, response: response)
-                case .failure(let error):
-                    print("Calling PokeAPI by generation \(genId) error")
-                }
-                if genId == 8 {
-                    self.dispatchGroup.leave()
-                }
+            
+            for try await result in taskGroup {
+                guard let pokemonGenerationDetails = result.1 else { return }
+                self.handlePokemonGenerationResponse(generation: result.0, response: pokemonGenerationDetails)
             }
         }
     }
     
-    func retrievePokemonVersions() {
-        dispatchGroup.enter()
-        for versionId in 1...20 {
-            networkService.callPokeAPI(with: .versionGroup, by: versionId, startingId: nil, endingId: nil) { (result: Result<PVersion, Error>) in
-                switch result {
-                case .success(let response):
-                    self.handlePokemonVersionGroupResponse(response: response)
-                case .failure(let error):
-                    print("Calling PokeAPI by version \(versionId) error")
+    func generatePokemonVersionSelectors() async throws {
+        try await withThrowingTaskGroup(of: PVersion?.self) { taskGroup in
+            for versionId in 1...PokedexConstants.versions.count {
+                taskGroup.addTask { [weak self] in
+                    return try await self?.networkService.callPokeAPI(with: .versionGroup, by: versionId, startingId: nil, endingId: nil, responseModel: PVersion.self)
                 }
-                if versionId == 20 {
-                    self.dispatchGroup.leave()
-                }
+            }
+            
+            for try await result in taskGroup {
+                guard let pokemonVersionGroupDetails = result else { return }
+                self.handlePokemonVersionGroupResponse(response: pokemonVersionGroupDetails)
             }
         }
     }

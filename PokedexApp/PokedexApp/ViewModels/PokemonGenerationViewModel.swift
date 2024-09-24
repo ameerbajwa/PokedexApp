@@ -18,20 +18,20 @@ class PokemonGenerationViewModel {
     }
     
     func retrievePokemonGenerations(completionHandler: @escaping (CompletionHandlerResponse) -> Void) {
-        for generation in 1...8 {
-            networkService.callPokeAPI(with: .generation, by: generation, startingId: nil, endingId: nil) { (result: Result<PGeneration, Error>) in
-                switch result {
-                case .success(let response):
-                    self.handlePokemonGenerationResponse(with: response)
-                    if self.pokedexConfigurations.count == 8 {
-                        completionHandler(.success)
-                    }
-                case .failure(let error):
-                    print(error)
-                    completionHandler(.failure)
-                }
-            }
-        }
+//        for generation in 1...8 {
+//            networkService.callPokeAPI(with: .generation, by: generation, startingId: nil, endingId: nil) { (result: Result<PGeneration, Error>) in
+//                switch result {
+//                case .success(let response):
+//                    self.handlePokemonGenerationResponse(with: response)
+//                    if self.pokedexConfigurations.count == 8 {
+//                        completionHandler(.success)
+//                    }
+//                case .failure(let error):
+//                    print(error)
+//                    completionHandler(.failure)
+//                }
+//            }
+//        }
     }
     
     func handlePokemonGenerationResponse(with pokemonGenerationResponse: PGeneration) {

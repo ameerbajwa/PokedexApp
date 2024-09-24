@@ -7,6 +7,7 @@
 
 import Foundation
 import UIKit
+import Combine
 
 class PokedexViewController: UIViewController {
     
@@ -48,32 +49,30 @@ class PokedexViewController: UIViewController {
             self.loadingView.displayLoadingView(with: "Loading Pokemon", on: self.view)
         }
         
-        pokemonListViewModel.retrievePokemonList { result in
-            switch result {
-            case .success:
-                DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
-                    self.setupPokedexTable()
-                    self.loadingView.dismissLoadingView()
-                }
-            case .failure:
-                print(self.pokemonListViewModel.pokemonListError?.localizedDescription ?? "Error")
-            }
+        Task {
+            await self.pokemonListViewModel.retrievePokemonList()
+            self.setupPokedexTable()
         }
     }
     
     func setupPokedexTable() {
-        self.view.addSubview(pokedexTableView)
-        pokedexTableView.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            pokedexTableView.topAnchor.constraint(equalTo: safeArea.topAnchor),
-            pokedexTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            pokedexTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            pokedexTableView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor)
-        ])
-        
-        pokedexTableView.register(PokedexTableViewCell.self, forCellReuseIdentifier: "pokedexCell")
-        pokedexTableView.dataSource = self
-        pokedexTableView.delegate = self
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+            self.view.addSubview(self.pokedexTableView)
+            self.pokedexTableView.translatesAutoresizingMaskIntoConstraints = false
+            
+            NSLayoutConstraint.activate([
+                self.pokedexTableView.topAnchor.constraint(equalTo: self.safeArea.topAnchor),
+                self.pokedexTableView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
+                self.pokedexTableView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
+                self.pokedexTableView.bottomAnchor.constraint(equalTo: self.safeArea.bottomAnchor)
+            ])
+            
+            self.pokedexTableView.register(PokedexTableViewCell.self, forCellReuseIdentifier: "pokedexCell")
+            self.pokedexTableView.dataSource = self
+            self.pokedexTableView.delegate = self
+            
+            self.loadingView.dismissLoadingView()
+        }
     }
 }
 

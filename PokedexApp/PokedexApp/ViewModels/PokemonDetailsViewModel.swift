@@ -29,46 +29,46 @@ class PokemonDetailsViewModel {
         self.dispatchGroup = DispatchGroup()
     }
     
-    func retrievePokemonDetails(completionHandler: @escaping (CompletionHandlerResponse) -> Void) {
-        callPokemonAPI()
-        callPokemonSpeciesAPI()
-        
-        dispatchGroup.notify(queue: .main) {
-            guard let safePokemonDetails = self.pokemonDetails,
-                  let safePokemonSpeciesDetails = self.pokemonSpeciesDetails,
-                  self.pokemonError == nil,
-                  self.pokemonSpeciesError == nil else {
-                completionHandler(.failure)
-                return
+    func retrievePokemonDetails() async throws {
+        try await withThrowingTaskGroup(of: PokemonSuperClass?.self, returning: Void.self) { taskGroup in
+            taskGroup.addTask {
+                return try await self.callPokemonAPI()
             }
-            self.masterPokemonDetails = VMPokemon(pokemon: safePokemonDetails, pokemonSpecies: safePokemonSpeciesDetails, configuration: self.configuration)
-            completionHandler(.success)
+            taskGroup.addTask {
+                return try await self.callPokemonSpeciesAPI()
+            }
+            
+            for try await response in taskGroup {
+                guard let safePokemonDetails = self.pokemonDetails,
+                      let safePokemonSpeciesDetails = self.pokemonSpeciesDetails,
+                      self.pokemonError == nil,
+                      self.pokemonSpeciesError == nil else {
+                    continue
+                }
+                self.masterPokemonDetails = VMPokemon(pokemon: safePokemonDetails, pokemonSpecies: safePokemonSpeciesDetails, configuration: self.configuration)
+            }
         }
     }
     
-    func callPokemonAPI() {
-        dispatchGroup.enter()
-        networkService.callPokeAPI(with: .pokemon, by: pokemonId, startingId: nil, endingId: nil) { (result: Result<Pokemon, Error>) in
-            switch result {
-            case .success(let response):
-                self.pokemonDetails = response
-            case .failure(let errorResponse):
-                self.pokemonError = errorResponse
-            }
-            self.dispatchGroup.leave()
+    func callPokemonAPI() async throws -> Pokemon? {
+        do {
+            self.pokemonDetails = try await networkService.callPokeAPI(with: .pokemon, by: pokemonId, startingId: nil, endingId: nil, responseModel: Pokemon.self)
+            return self.pokemonDetails
+        } catch {
+            self.pokemonError = error
+            print(error.localizedDescription)
+            return nil
         }
     }
     
-    func callPokemonSpeciesAPI() {
-        dispatchGroup.enter()
-        networkService.callPokeAPI(with: .species, by: pokemonId, startingId: nil, endingId: nil) { (result: Result<PSpecies, Error>) in
-            switch result {
-            case .success(let response):
-                self.pokemonSpeciesDetails = response
-            case .failure(let errorResponse):
-                self.pokemonSpeciesError = errorResponse
-            }
-            self.dispatchGroup.leave()
+    func callPokemonSpeciesAPI() async throws -> PSpecies? {
+        do {
+            self.pokemonSpeciesDetails = try await networkService.callPokeAPI(with: .species, by: pokemonId, startingId: nil, endingId: nil, responseModel: PSpecies.self)
+            return self.pokemonSpeciesDetails
+        } catch {
+            self.pokemonSpeciesError = error
+            print(error.localizedDescription)
+            return nil
         }
     }
 }

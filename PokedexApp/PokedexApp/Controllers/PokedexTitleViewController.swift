@@ -37,34 +37,38 @@ class PokedexTitleViewController: UIViewController {
         super.viewDidLoad()
         DispatchQueue.main.async {
             self.loadingView.displayLoadingView(with: "Loading Pokedex", on: self.view)
-            self.viewModel.retrievePokemonSelectors { result in
-                switch result {
-                case .success:
-                    self.pokedexSelectionView.viewModel = self.viewModel
-                    self.setupPokedexTitleView()
-                case .failure:
-                    self.loadingView.dismissLoadingView()
-                    print("pokedexTitleViewController viewDidLoad retrievePokemonSelectors called error")
-                }
-            }
         }
         
+        Task {
+            do {
+                try await self.viewModel.generatePokemonGenerationSelectors()
+                try await self.viewModel.generatePokemonVersionSelectors()
+                self.setupPokedexTitleView()
+            } catch {
+                print(error.localizedDescription)
+            }
+        }
     }
     
     func setupPokedexTitleView() {
-        pokedexSelectionView.setupViews()
-        
-        self.view.addSubview(pokedexSelectionView)
-        pokedexSelectionView.translatesAutoresizingMaskIntoConstraints = false
-        
-        NSLayoutConstraint.activate([
-            pokedexSelectionView.topAnchor.constraint(equalTo: safeArea.topAnchor),
-            pokedexSelectionView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor),
-            pokedexSelectionView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor),
-            pokedexSelectionView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor)
-        ])
-        
-        self.loadingView.dismissLoadingView()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+            self.viewModel.changePokemonVersionSelections()
+            
+            self.pokedexSelectionView.viewModel = self.viewModel
+            self.pokedexSelectionView.setupViews()
+            
+            self.view.addSubview(self.pokedexSelectionView)
+            self.pokedexSelectionView.translatesAutoresizingMaskIntoConstraints = false
+            
+            NSLayoutConstraint.activate([
+                self.pokedexSelectionView.topAnchor.constraint(equalTo: self.safeArea.topAnchor),
+                self.pokedexSelectionView.leadingAnchor.constraint(equalTo: self.safeArea.leadingAnchor),
+                self.pokedexSelectionView.trailingAnchor.constraint(equalTo: self.safeArea.trailingAnchor),
+                self.pokedexSelectionView.bottomAnchor.constraint(equalTo: self.safeArea.bottomAnchor)
+            ])
+            
+            self.loadingView.dismissLoadingView()
+        }
     }
 }
 

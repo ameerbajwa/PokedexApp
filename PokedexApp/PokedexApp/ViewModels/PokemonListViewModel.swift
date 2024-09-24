@@ -20,16 +20,23 @@ class PokemonListViewModel {
         self.configuration = configuration
     }
     
-    func retrievePokemonList(completionHandler: @escaping (CompletionHandlerResponse) -> Void) {
-        networkService.callPokeAPI(with: .pokemonList, by: nil, startingId: configuration.startingPokemonId, endingId: configuration.endingPokemonId) { (result: Result<PList, Error>) in
-            switch result {
-            case .success(let response):
-                self.createVMPokemonList(with: response)
-                self.generatePokemonImagesOnList()
-                completionHandler(.success)
-            case .failure(let error):
-                self.pokemonListError = error
-                completionHandler(.failure)
+    func retrievePokemonList() async {
+        await withTaskGroup(of: PList?.self) { taskGroup in
+            taskGroup.addTask {
+                do {
+                    return try await self.networkService.callPokeAPI(with: .pokemonList, by: nil, startingId: self.configuration.startingPokemonId, endingId: self.configuration.endingPokemonId, responseModel: PList.self)
+                } catch {
+                    self.pokemonListError = error
+                    print(error.localizedDescription)
+                    return nil
+                }
+            }
+            
+            for await result in taskGroup {
+                if let safePList = result {
+                    self.createVMPokemonList(with: safePList)
+                    self.generatePokemonImagesOnList()
+                }
             }
         }
     }
@@ -47,7 +54,7 @@ extension PokemonListViewModel {
     
     func generatePokemonImageUrl(using pokemonUrl: String) -> String {
         let pokemonUrlComponents = pokemonUrl.components(separatedBy: "/")
-        return Constants.spriteImageBaseURL + "/\(pokemonUrlComponents[pokemonUrlComponents.endIndex-2]).png"
+        return PokeAPIUrls.spriteImageBaseURL.value + "/\(pokemonUrlComponents[pokemonUrlComponents.endIndex-2]).png"
     }
     
     func generatePokemonImage(using pokemonUrl: String) async -> UIImage? {
