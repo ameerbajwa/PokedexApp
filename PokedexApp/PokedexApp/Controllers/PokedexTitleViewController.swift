@@ -40,7 +40,19 @@ class PokedexTitleViewController: UIViewController {
         }
         
         Task {
-            await self.viewModel.retrievePokemonSelectors()
+            do {
+                try await self.viewModel.generatePokemonGenerationSelectors()
+                try await self.viewModel.generatePokemonVersionSelectors()
+            } catch {
+                print(error.localizedDescription)
+            }
+            
+            guard let _ = self.viewModel.pokemonGenerations,
+                    let _ = self.viewModel.pokemonVersions else {
+                return
+            }
+            
+            self.viewModel.changePokemonVersionSelections()
             self.setupPokedexTitleView()
         }
     }
@@ -59,7 +71,7 @@ class PokedexTitleViewController: UIViewController {
                 self.pokedexSelectionView.trailingAnchor.constraint(equalTo: self.safeArea.trailingAnchor),
                 self.pokedexSelectionView.bottomAnchor.constraint(equalTo: self.safeArea.bottomAnchor)
             ])
-
+            
             self.loadingView.dismissLoadingView()
         }
     }

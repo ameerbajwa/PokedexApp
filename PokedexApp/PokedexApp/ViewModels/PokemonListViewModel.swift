@@ -54,7 +54,7 @@ extension PokemonListViewModel {
     
     func generatePokemonImageUrl(using pokemonUrl: String) -> String {
         let pokemonUrlComponents = pokemonUrl.components(separatedBy: "/")
-        return Constants.spriteImageBaseURL + "/\(pokemonUrlComponents[pokemonUrlComponents.endIndex-2]).png"
+        return PokeAPIUrls.spriteImageBaseURL.value + "/\(pokemonUrlComponents[pokemonUrlComponents.endIndex-2]).png"
     }
     
     func generatePokemonImage(using pokemonUrl: String) async -> UIImage? {

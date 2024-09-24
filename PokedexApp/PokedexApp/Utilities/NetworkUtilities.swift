@@ -1,15 +1,24 @@
 //
-//  Constants.swift
+//  NetworkUtilities.swift
 //  PokedexApp
 //
-//  Created by Ameer Bajwa on 2/7/24.
+//  Created by Ameer Bajwa on 9/23/24.
 //
 
 import Foundation
 
-public struct Constants {
-    static let baseURL = "https://pokeapi.co/api/"
-    static let spriteImageBaseURL = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon"
+public enum PokeAPIUrls {
+    case baseURL
+    case spriteImageBaseURL
+    
+    var value: String {
+        switch self {
+        case .baseURL:
+            return "https://pokeapi.co/api/"
+        case .spriteImageBaseURL:
+            return "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon"
+        }
+    }
 }
 
 public enum UrlVersion {
@@ -33,7 +42,7 @@ enum HttpMethod: String {
     case DELETE
 }
 
-public enum Endpoint {
+public enum PokeAPIEndpoint {
     case species
     case pokemon
     case pokemonList

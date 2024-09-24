@@ -18,7 +18,7 @@ struct NetworkService {
         self.decoder = jsonDecoder
     }
     
-    func callPokeAPI<T: Codable>(with endpoint: Endpoint,
+    func callPokeAPI<T: Codable>(with endpoint: PokeAPIEndpoint,
                                  by id: Int?,
                                  startingId: Int?,
                                  endingId: Int?,
@@ -59,8 +59,8 @@ struct NetworkService {
 }
 
 extension NetworkService {
-    func generatePokeAPIUrl(with endpoint: Endpoint, by id: Int?, startingId: Int?, endingId: Int?) -> String {
-        let pokeAPIUrlString = Constants.baseURL + UrlVersion.v2.value + endpoint.value
+    func generatePokeAPIUrl(with endpoint: PokeAPIEndpoint, by id: Int?, startingId: Int?, endingId: Int?) -> String {
+        let pokeAPIUrlString = PokeAPIUrls.baseURL.value + UrlVersion.v2.value + endpoint.value
         guard let safeId = id else {
             guard let startingId = startingId, let endingId = endingId else { return "" }
             let offset = startingId - 1
