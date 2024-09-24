@@ -29,51 +29,46 @@ class PokemonDetailsViewModel {
         self.dispatchGroup = DispatchGroup()
     }
     
-    func retrievePokemonDetails() async {
-        await withTaskGroup(of: Bool.self, returning: Void.self) { taskGroup in
+    func retrievePokemonDetails() async throws {
+        try await withThrowingTaskGroup(of: PokemonSuperClass?.self, returning: Void.self) { taskGroup in
             taskGroup.addTask {
-                return await self.callPokemonAPI()
+                return try await self.callPokemonAPI()
             }
             taskGroup.addTask {
-                return await self.callPokemonSpeciesAPI()
+                return try await self.callPokemonSpeciesAPI()
             }
             
-            var results = [Bool]()
-            for await result in taskGroup {
-                results.append(result)
-            }
-            
-            if results[0] && results[1] {
+            for try await response in taskGroup {
                 guard let safePokemonDetails = self.pokemonDetails,
                       let safePokemonSpeciesDetails = self.pokemonSpeciesDetails,
                       self.pokemonError == nil,
                       self.pokemonSpeciesError == nil else {
-                    return
+                    continue
                 }
                 self.masterPokemonDetails = VMPokemon(pokemon: safePokemonDetails, pokemonSpecies: safePokemonSpeciesDetails, configuration: self.configuration)
             }
         }
     }
     
-    func callPokemonAPI() async -> Bool {
+    func callPokemonAPI() async throws -> Pokemon? {
         do {
             self.pokemonDetails = try await networkService.callPokeAPI(with: .pokemon, by: pokemonId, startingId: nil, endingId: nil, responseModel: Pokemon.self)
-            return true
+            return self.pokemonDetails
         } catch {
             self.pokemonError = error
             print(error.localizedDescription)
-            return false
+            return nil
         }
     }
     
-    func callPokemonSpeciesAPI() async -> Bool {
+    func callPokemonSpeciesAPI() async throws -> PSpecies? {
         do {
             self.pokemonSpeciesDetails = try await networkService.callPokeAPI(with: .species, by: pokemonId, startingId: nil, endingId: nil, responseModel: PSpecies.self)
-            return true
+            return self.pokemonSpeciesDetails
         } catch {
             self.pokemonSpeciesError = error
             print(error.localizedDescription)
-            return false
+            return nil
         }
     }
 }

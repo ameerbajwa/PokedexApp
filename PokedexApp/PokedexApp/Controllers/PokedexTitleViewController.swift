@@ -43,22 +43,17 @@ class PokedexTitleViewController: UIViewController {
             do {
                 try await self.viewModel.generatePokemonGenerationSelectors()
                 try await self.viewModel.generatePokemonVersionSelectors()
+                self.setupPokedexTitleView()
             } catch {
                 print(error.localizedDescription)
             }
-            
-            guard let _ = self.viewModel.pokemonGenerations,
-                    let _ = self.viewModel.pokemonVersions else {
-                return
-            }
-            
-            self.viewModel.changePokemonVersionSelections()
-            self.setupPokedexTitleView()
         }
     }
     
     func setupPokedexTitleView() {
         DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+            self.viewModel.changePokemonVersionSelections()
+            
             self.pokedexSelectionView.viewModel = self.viewModel
             self.pokedexSelectionView.setupViews()
             

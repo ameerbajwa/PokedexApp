@@ -48,14 +48,18 @@ class PokemonDetailsViewController: UIViewController {
         }
         
         Task {
-            await self.pokemonDetailsViewModel.retrievePokemonDetails()
-            self.detailsView.viewModel = self.pokemonDetailsViewModel
-            self.setupDetailsView()
+            do {
+                try await self.pokemonDetailsViewModel.retrievePokemonDetails()
+                self.setupDetailsView()
+            } catch {
+                print(error.localizedDescription)
+            }
         }
     }
     
     func setupDetailsView() {
         DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+            self.detailsView.viewModel = self.pokemonDetailsViewModel
             self.detailsView.setup()
             
             self.view.addSubview(self.detailsView)
