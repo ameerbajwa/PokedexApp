@@ -15,12 +15,14 @@ class PokemonDetailsViewController: UIViewController {
     
     var loadingView: LoadingView!
     var detailsView: PokemonDetailsView
+    var descriptionView: PokemonDescriptionView
     
     var safeArea: UILayoutGuide!
     
-    init(viewModel: PokemonDetailsViewModel, detailsView: PokemonDetailsView) {
+    init(viewModel: PokemonDetailsViewModel, detailsView: PokemonDetailsView, descriptionView: PokemonDescriptionView) {
         self.pokemonDetailsViewModel = viewModel
         self.detailsView = detailsView
+        self.descriptionView = descriptionView
         super.init(nibName: nil, bundle: nil)
         
         loadingView = LoadingView()
@@ -60,19 +62,31 @@ class PokemonDetailsViewController: UIViewController {
     func setupDetailsView() {
         DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
             self.detailsView.viewModel = self.pokemonDetailsViewModel
+            self.descriptionView.viewModel = self.pokemonDetailsViewModel
             self.detailsView.setup()
+            self.descriptionView.setupLabels()
+            
+            self.descriptionView.layer.borderColor = UIColor.black.cgColor
+            self.descriptionView.layer.borderWidth = 2.5
             
             self.view.addSubview(self.detailsView)
+            self.view.addSubview(self.descriptionView)
             self.detailsView.translatesAutoresizingMaskIntoConstraints = false
+            self.descriptionView.translatesAutoresizingMaskIntoConstraints = false
             
             NSLayoutConstraint.activate([
                 self.detailsView.topAnchor.constraint(equalTo: self.safeArea.topAnchor),
                 self.detailsView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
                 self.detailsView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
-                self.detailsView.heightAnchor.constraint(equalToConstant: 170.0)
+                self.detailsView.heightAnchor.constraint(equalToConstant: 170.0),
+                self.descriptionView.topAnchor.constraint(equalTo: self.detailsView.bottomAnchor, constant: 15.0),
+                self.descriptionView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 10.0),
+                self.descriptionView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -10.0),
+                self.descriptionView.heightAnchor.constraint(equalToConstant: 80.0)
             ])
             
             self.detailsView.setValues()
+            self.descriptionView.setupDescriptionValue()
             
             self.loadingView.dismissLoadingView()
         }
