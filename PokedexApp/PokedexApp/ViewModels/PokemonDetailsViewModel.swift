@@ -90,3 +90,23 @@ extension PokemonDetailsViewModel {
         }
     }
 }
+
+extension PokemonDetailsViewModel {
+    func retrievePokemonDescription() -> String? {
+        guard let pokemonDescriptions = self.masterPokemonDetails?.pokemonSpeciesDetails.flavorTextEntries else {
+            return nil
+        }
+        
+        let englishPokemonDescriptions = pokemonDescriptions.filter { pokemonDescription in
+            return pokemonDescription.language.name == "en" ? true : false
+        }
+        
+        for pokemonDescription in englishPokemonDescriptions {
+            if pokemonDescription.version.name == configuration.selectedVersion {
+                return pokemonDescription.flavorText.replacingOccurrences(of: "\n", with: " ")
+            }
+        }
+        
+        return nil
+    }
+}

@@ -15,6 +15,7 @@ class PokemonDetailsCoordinator: Coordinator {
     
     var viewModel: PokemonDetailsViewModel
     let detailsView: PokemonDetailsView
+    let descriptionView: PokemonDescriptionView
     var controller: PokemonDetailsViewController
     
     init(parentCoordinator: MainCoordinator, navigationController: UINavigationController, networkService: NetworkService, configuration: PokedexConfiguration, pokemonId: Int) {
@@ -24,7 +25,8 @@ class PokemonDetailsCoordinator: Coordinator {
         
         self.viewModel = PokemonDetailsViewModel(networkService: networkService, configuration: configuration, pokemonId: pokemonId)
         self.detailsView = PokemonDetailsView()
-        self.controller = PokemonDetailsViewController(viewModel: viewModel, detailsView: detailsView)
+        self.descriptionView = PokemonDescriptionView()
+        self.controller = PokemonDetailsViewController(viewModel: viewModel, detailsView: detailsView, descriptionView: descriptionView)
     }
     
     func start() {
