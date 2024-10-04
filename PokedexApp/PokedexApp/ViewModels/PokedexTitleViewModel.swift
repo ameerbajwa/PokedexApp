@@ -112,9 +112,15 @@ class PokedexTitleViewModel {
 // MARK: - Generate Pokedex Configuration
 extension PokedexTitleViewModel {
     func generatePokedexConfiguration() -> PokedexConfiguration? {
-        guard let pokemonGeneration = pokemonGenerations?[selectedPokemonGeneration], let pokemonVersion = selectedPokemonVersion else {
-            return nil
+        guard let pokemonVersion = selectedPokemonVersion else { return nil }
+        
+        let updatedVersionsOfOlderPokemonGenerations = PokedexChosenVersionCorrespondingGeneration.allCases.map { $0.rawValue }
+        if updatedVersionsOfOlderPokemonGenerations.contains(pokemonVersion) {
+            let updatedPokemonVersion = PokedexChosenVersionCorrespondingGeneration(rawValue: pokemonVersion)
+            selectedPokemonGeneration = updatedPokemonVersion?.actualGeneration ?? 0
         }
+        
+        guard let pokemonGeneration = pokemonGenerations?[selectedPokemonGeneration] else { return nil }
 
         let pokemonGenerationPokemonIdList = pokemonGeneration.pokemonSpecies.map { pokemonSpecies in
             let pokemonId = pokemonSpecies.url.components(separatedBy: "/")
